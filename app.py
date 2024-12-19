@@ -20,11 +20,11 @@ CORS(app)
 
 def StartServer():
     os.system("pkill chromium")
-    subprocess.Popen(['chromium-browser','--start-fullscreen','--kiosk', 'http://localhost:3000/']) 
+    subprocess.Popen(['chromium-browser','--start-fullscreen','--kiosk', 'http://localhost:5000']) 
 
 def StartApp():
     os.system("pkill chromium")
-    subprocess.Popen(['chromium-browser','--start-fullscreen','--kiosk', 'http://localhost:3000/server/']) 
+    subprocess.Popen(['chromium-browser','--start-fullscreen','--kiosk', 'http://localhost:5000/server']) 
 
 # SET ตั้งค่าสายไฟ
 # https://youtu.be/W_kdEPdpt8Q
