@@ -392,6 +392,6 @@ def on_run():
     msg['status'] = "success"
     msg['msg'] = "เปิดทั้งหมด"
     return jsonify(msg),200
-
+StartServer()
 if __name__ == '__main__':
     socketio.run(app,host="0.0.0.0",port="5000", debug=True)
