@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template,send_file
 from flask_socketio import SocketIO, emit, send
 from flask_cors import CORS, cross_origin
 import requests
@@ -204,7 +204,12 @@ def index():
     return render_template('index.html')
 @app.route('/favicon.ico')
 def favicon():
-    return render_template('images.png')
+    if request.args.get('type') == '1':
+       filename = 'images.png'
+    else:
+       filename = 'images.png'
+    return send_file(filename, mimetype='image/png')
+    #return render_template('images.png')
 
 
 @socketio.event()
@@ -374,8 +379,7 @@ def handleMessage(msg):
             json.dump(json_data, f) 
           #return send('เริ่มต้นการทำงาน', broadcast=True)
        return send(json_data, broadcast=True)
-
-
+        
 @socketio.on_error()        # Handles the default namespace
 def error_handler(e):
     print(f'An error occurred: {e}')
