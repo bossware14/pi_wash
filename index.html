@@ -86,7 +86,6 @@
                 $('#TIMESERVER').html(str.data.time);
                 $('#persen').attr('style','width:'+str.data.persen+'%');
                 if(str.data.start == 0){
-                    $.getJSON('/off');
                     $('.modewash').attr('disabled',false);
                     $('.temperature').attr('disabled',false);
                     $('#AppStop').attr('disabled',true);
@@ -102,9 +101,6 @@
                     $('#AppStart').hide();
                     $('#AppStop').show();
                 }
-                //var p = document.createElement('p');
-                //p.innerText = msg;
-                //document.getElementById('status').appendChild(p);
             });
         });
 
