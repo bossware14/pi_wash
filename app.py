@@ -26,6 +26,32 @@ def StartApp():
     os.system("pkill chromium")
     subprocess.Popen(['chromium-browser','--start-fullscreen','--kiosk', 'http://localhost:5000/server']) 
 
+def ExitApp():
+    os.system("pkill chromium")
+    os.system('python3 app.py')
+    os.system('fuser -k 5000/tcp')
+
+def ShutdownApp():
+    os.system("pkill chromium")
+    os.system("fuser -k 5000/tcp")
+
+
+#ปิดแอป
+@app.route('/close',methods=['GET'])
+def KULLSS():
+    os.system("pkill chromium")
+    msg = {}
+    msg['msg'] = 'CLOSE' 
+    ExitApp()
+    return jsonify(msg),200
+    
+@app.route('/stop',methods=['GET'])
+def STOPAPP():
+    os.system("pkill chromium")
+    msg = {}
+    msg['msg'] = 'STOP'
+    return jsonify(msg),200
+
 # SET ตั้งค่าสายไฟ
 # https://youtu.be/W_kdEPdpt8Q
 #เปิดและปิด 0.1 วิ
