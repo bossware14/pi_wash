@@ -271,8 +271,8 @@ def update_data(json_data):
                     json_data['data']['start'] = 0
                     json_data['data']['action'] = 0
                     json_data['data']['persen'] = 100
-                    DELAY_ONE(pion['stop'])
-                    DELAY_STOP(pion['led'])
+                    #DELAY_ONE(pion['stop'])
+                    #DELAY_STOP(pion['led'])
                 else:
                     json_data['data']['persen'] = 100-TOSEC*100/int(json_data['data']['sec'])
                     json_data['data']['TIMSEC'] = TOSEC
@@ -326,7 +326,6 @@ def handleMessage(msg):
           
           update = timezone(timedelta(hours=7,minutes=int(json_data['data']['action'])))
           json_data['data']['minute'] = '00:'+str(json_data['data']['action'])+':00'
-
           DELAY_ONE(pion['timeout'],str(json_data['data']['action']))
 
           with open('data.json', 'w') as f:
