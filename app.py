@@ -203,7 +203,7 @@ json_data['mode'] = jsopn_mode
 def index():
     return render_template('index.html')
 @app.route('/favicon.ico')
-def index():
+def favicon():
     return render_template('images.png')
 
 
