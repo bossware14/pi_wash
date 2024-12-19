@@ -202,6 +202,9 @@ json_data['mode'] = jsopn_mode
 @app.route('/')
 def index():
     return render_template('index.html')
+@app.route('/favicon.ico')
+def index():
+    return render_template('images.png')
 
 
 @socketio.event()
@@ -378,13 +381,13 @@ def error_handler(e):
     print(f'An error occurred: {e}')
 
 @app.errorhandler(500)
-def page_not_s(err):
+def page_not_s():
    return jsonify({"status": "error","code": "500","msg":"ไม่พร้อมใช้งาน"}),200
 @app.errorhandler(404)
-def page_not_found(err):
+def page_not_found():
    return jsonify({"status": "error","code": "404","msg":"ไม่พร้อมใช้งาน"}),200
 @app.errorhandler(400)
-def page_not_found_400(err):
+def page_not_found_400():
    return jsonify({"status": "error","code": "400","msg":"ไม่พร้อมใช้งาน"}),200
 
 
