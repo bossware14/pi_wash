@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>WAS HAPP</title>
+    <meta name="msapplication-TileColor" content="#066fd1">
+    <meta name="theme-color" content="#066fd1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="description" content="WashLover">
+    <!-- CSS files -->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+    <!-- CSS files -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-flags.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-payments.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-vendors.min.css">
+
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+    <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=K2D:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: "K2D", serif;
+            font-weight: 900;
+            font-style: normal;
+            cursor: none !important;
+        }
+        :active{
+            cursor: none !important;
+        } 
+        :hover{
+            cursor: none !important;
+        }
+    </style>
+    <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+        var socket = io();
+        document.addEventListener('DOMContentLoaded', (event) => {
+            socket.on('connect', function() {
+                socket.send('connect');
+            });
+            socket.on('message', function(str) {
+                console.log(str)
+                $('#STATUS_LED').val(str.data.monitor)
+                if(str.status == 'error'){
+                    $('#STATUS').removeClass('bg-green');
+                    $('#STATUS').addClass('bg-red');
+                }else{
+                    $('#STATUS').removeClass('bg-red');
+                    $('#STATUS').removeClass('text-dark');
+                    $('#STATUS').addClass('bg-green');
+                    $('#STATUS').addClass('text-light');
+                }
+                MODED = str.mode;
+                MODED_PRICE = str.price;
+                $('#STATUS').html(str.msg);
+                $('#wash_status').html(str.data.msg);
+                $('#name').html(str.data.name);
+                $('#timeout').html(str.data.timeout);
+                $('#monitor').val(str.data.monitor);
+                $('#modewash').val(str.data.modewash);
+                $('#temperature').val(str.data.temperature);
+
+                $('#'+str.data.modewash).attr('checked',true);
+                $('#'+str.data.temperature).attr('checked',true);
+                $('#RUNTIME').html(str.data.runtime);
+                $('#TIMESERVER').html(str.data.time);
+                $('#persen').attr('style','width:'+str.data.persen+'%');
+                if(str.data.start == 0){
+                    $.getJSON('/off');
+                    $('.modewash').attr('disabled',false);
+                    $('.temperature').attr('disabled',false);
+                    $('#AppStop').attr('disabled',true);
+                    $('#AppStart').attr('disabled',false);
+                    $('#AppStart').show();
+                    $('#AppStop').hide();
+                    clearInterval(RUNTIME);
+                }else{
+                    $('.modewash').attr('disabled',true);
+                    $('.temperature').attr('disabled',true);
+                    $('#AppStop').attr('disabled',false);
+                    $('#AppStart').attr('disabled',true);
+                    $('#AppStart').hide();
+                    $('#AppStop').show();
+                }
+                //var p = document.createElement('p');
+                //p.innerText = msg;
+                //document.getElementById('status').appendChild(p);
+            });
+        });
+
+
+function res_id(id,str){
+   document.getElementById(id).innerHTML = str;
+}
+
+function CheckData(){
+var data = {}
+data.status = 'message';
+data.key = 'start';
+data.value = 1;
+socket.send(JSON.stringify(data));
+}
+
+function modewash(no){
+var data = {} 
+data.status = 'update';
+data.key = 'modewash';
+data.value = 'modewash'+no;
+socket.send(JSON.stringify(data));
+}
+
+function temperature(no){
+var data = {} 
+data.status = 'update';
+data.key = 'temperature';
+data.value = 'temperature'+no;
+socket.send(JSON.stringify(data));
+}
+
+function AppStop(){
+var data = {} 
+data.status = 'stop';
+data.key = 'start';
+data.value = 0;
+socket.send(JSON.stringify(data));
+clearInterval(RUNTIME)
+}
+
+function AppStart(){
+var data = {} 
+data.status = 'start';
+data.key = 'timeout';
+data.value = 10;
+socket.send(JSON.stringify(data));
+var RUNTIME = setInterval(function(){CheckData(); }, 1000);
+}
+
+</script>
+</head>
+<body>
+<h1>Flask Socket.IO</h1>
+<input id="msg" disabled value="Loading.." type="text">
+<br>
+<button class="btn btn-primary" onclick="CheckData()">Check</button>
+<br>
+<button class="btn btn-primary" onclick="modewash(1)">ซักปกติ</button>
+<button class="btn btn-primary" onclick="modewash(2)">ซักด่วน</button>
+<button class="btn btn-primary" onclick="modewash(3)">ผ้าหุ่มที่นอน</button>
+<button class="btn btn-primary" onclick="modewash(4)">ถนอมผ้า</button>
+<br>
+<button class="btn btn-primary" onclick="temperature(1)">น้ำปกติ</button>
+<button class="btn btn-primary" onclick="temperature(2)">น้ำอุ่น</button>
+<button class="btn btn-primary" onclick="temperature(3)">น้ำเย็น</button>
+<br>
+<button class="btn btn-primary" onclick="StartWash()">เริ่มทำงาน</button>
+<button class="btn btn-danger" onclick="StopWash()">หยุด</button>
+<div id="status"></div>
+
+    <ons-splitter>
+        <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+            <ons-page>
+                <ons-list>
+                    <ons-list-item onclick="fn.load('home.html')" tappable>
+                        Home
+                    </ons-list-item>
+                    <ons-list-item onclick="fn.load('settings.html')" tappable>
+                        Settings
+                    </ons-list-item>
+                    <ons-list-item onclick="fn.load('about.html')" tappable>
+                        About
+                    </ons-list-item>
+                </ons-list>
+            </ons-page>
+        </ons-splitter-side>
+        <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
+    </ons-splitter>
+    <template id="tab1.html">
+        <ons-page id="Tab1">
+            <ons-card>
+                <ons-row>
+                    <ons-col>
+                        <div style="padding:5px;">
+                            <div class="w-100" style="text-align:center;margin-bottom:5px;">
+                                สถาณะ :
+                                <b class="rounded ps-2 pe-2 text-dark" id="STATUS">ONLINE</b>
+                            </div>
+                            <div class="d-flex">
+                                <div>
+                                    <small id="TIMESERVER">2024-12-17 22:59:52</small>
+                                </div>
+                                <div class="ms-auto">
+                                    <span class="badge bg-indigo text-indigo-fg" id="RUNTIME">00:00:00</span>
+                                </div>
+                            </div>
+                            <div class="progress mt-2 mb-3" style="height:20px;">
+                                <div class="progress-bar bg-primary" id="persen" style="width:0%;" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="0">
+
+                                </div>
+                                <div class="d-none text-white w-100 text-center" style="position: absolute;">
+                                   ....
+                                </div>
+                            </div>
+                            <video id="videoPlayer" width="100%" loop="loop" autoplay="autoplay" muted="muted" playsinline="" style="border-radius: 5px;">
+                                <source src="https://washclub.honey.co.th/images/vdo1.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </ons-col>
+                    <ons-col>
+
+                        <div style="padding:5px;">
+                            <input id="STATUS_LED" class="form-control text-center bg-dark text-light" readonly="" value="เลือกโหมดการซัก">
+
+                        </div>
+                        <div class="mt-2 row" style="padding:5px;">
+                            <div class="col-6">
+                                <input onclick="modewash(1);$('#modewash').val('modewash1');" type="radio" class="btn-check modewash" name="modewash" id="modewash1">
+                                <label class="btn btn-outline-primary w-100 mb-2" for="modewash1">ซักปกติ</label>
+                            </div>
+                            <div class="col-6">
+                                <input onclick="modewash(2);$('#modewash').val('modewash2');" type="radio" class="btn-check modewash" name="modewash" id="modewash2">
+                                <label class="btn btn-outline-primary w-100 mb-2" for="modewash2">ซักด่วน</label>
+
+                            </div>
+                            <div class="col-6">
+                                <input onclick="modewash(3);$('#modewash').val('modewash3');" type="radio" class="btn-check modewash" name="modewash" id="modewash3">
+                                <label class="btn btn-outline-primary w-100 mb-2" for="modewash3">ผ้าหุ่ม</label>
+                            </div>
+                            <div class="col-6">
+                                <input onclick="modewash(4);$('#modewash').val('modewash4');" type="radio" class="btn-check modewash" name="modewash" id="modewash4">
+                                <label class="btn btn-outline-primary w-100 mb-2" for="modewash4">ซักถนอม</label>
+                            </div>
+                            <input id="modewash" type="hidden" value="">
+                        </div>
+                        <div style="padding:5px">
+                            <label style="font-weight:400;margin-bottom:5px;">อุณหภูมิ น้ำ</label>
+                            <br>
+                            <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
+                                <input type="radio" class="btn-check temperature"  onclick="temperature(1);$('#temperature').val('temperature1');" name="temperature" id="temperature1">
+                                <label class="btn btn-outline-primary" for="temperature1">ปกติ</label>
+                                <input type="radio" class="btn-check temperature" onclick="temperature(2);$('#temperature').val('temperature2');" name="temperature" id="temperature2">
+                                <label class="btn btn-outline-primary" for="temperature2">น้ำอุ่น</label>
+                                <input type="radio" class="btn-check temperature" onclick="temperature(3);$('#temperature').val('temperature3');" name="temperature" id="temperature3">
+                                <label class="btn btn-outline-primary" for="temperature3">น้ำเย็น</label>
+                                <input id="temperature" type="hidden" value="">
+                            </div>
+                            <div class="btn-group w-100" role="group">
+                                    <button onclick="AppStop();$('#AppStop').attr('disabled',true);$('#AppStart').drop('disabled',false);$('.modewash').drop('disabled',false);$('.temperature').drop('disabled',false);"  id="AppStop" style="font-size:20px" class="w-100 mt-3 btn btn-outline-danger">สิ้นสุด</button>
+                                    <button onclick="AppStart();$('#AppStart').attr('disabled',true);$('#AppStop').drop('disabled',false);$('.modewash').attr('disabled',true);$('.temperature').attr('disabled',true);"  id="AppStart" style="font-size:20px" class="w-100 mt-3 btn btn-outline-success">เริ่มการทำงาน</button>
+                            </div></div>
+                    </ons-col>
+                </ons-row>
+            </ons-card>
+        </ons-page>
+    </template>
+    <template id="tab2.html">
+        <ons-page id="Tab2">
+            <ons-card>
+                <ons-row>
+                    <ons-col class="me-2">
+                        <img class="border rounded" src="https://image-charts.com/chart?chs=150x150&cht=qr&choe=UTF-8&chl=https%3A%2F%2Fliff.line.me%2F2006423749-V2bglBzM">
+                    </ons-col>
+                    <ons-col class="p-2">
+                        <div>
+                            ชำระเงินด้วย QRCODE
+                        </div>
+                        <div class="alert mt-2">
+                            <div class="">
+                                ยอดชำระ : <span id="amount">0</span> บาท
+                            </div>
+                            <div class="mt-1">
+                                รายการ : <span id="status_mode">ซักผ้า</span>
+                            </div>
+                            <div class="mt-1">
+                                เวลา : <span id="status_time">0</span> นาที
+                            </div>
+                        </div>
+                    </ons-col>
+                </ons-row>
+
+
+            </ons-card>
+
+        </ons-page>
+    </template>
+    <template id="tab3.html">
+        <ons-page id="Tab3">
+            <ons-card>
+                <ons-row>
+
+                    <ons-col class="m-2">
+                        <div>
+                            เข้าสู่ระบบ
+                        </div>
+                        <div>
+                            ......
+                        </div>
+                    </ons-col>
+
+                    <ons-col>
+                        <div>เข้าสู่ระบบ สมาชิก</div>
+                        <ul class="m-2 list">
+                            <li class="list-item">
+                                <div class="list-item__center">
+                                    <input type="tel" maxlength="10" id="phone" style="font-size:20px;font-weight:900;" class="text-center text-input w-100" placeholder="เบอร์โทรศัพท์">
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ons-row>
+                            <ons-col class="p-1">
+                                <ons-button onclick="CHGPHONE(1)" style="font-size:20px" class="w-100 btn btn-outline-light text-dark">1</ons-button>
+                            </ons-col>
+                            <ons-col class="p-1">
+                                <ons-button onclick="CHGPHONE(2)" style="font-size:20px" class="w-100 btn btn-outline-light text-dark">2</ons-button>
+                            </ons-col>
+                            <ons-col class="p-1">
+                                <ons-button onclick="CHGPHONE(3)" style="font-size:20px" class="w-100 btn btn-outline-light text-dark">3</ons-button>
+                            </ons-col>
+                        </ons-row>
+
+
+                        <ons-row>
+                            <ons-col class="p-1">
+                                <ons-button onclick="CHGPHONE(4)" style="font-size:20px" class="w-100 btn btn-outline-light text-dark">4</ons-button>
+                            </ons-col>
+                            <ons-col class="p-1">
+                                <ons-button onclick="CHGPHONE(5)" style="font-size:20px" class="w-100 btn btn-outline-light text-dark">5</ons-button>
+                            </ons-col>
+                            <ons-col class="p-1">
+                                <ons-button onclick="CHGPHONE(6)" style="font-size:20px" class="w-100 btn btn-outline-light text-dark">6</ons-button>
+                            </ons-col>
+                        </ons-row>
+
+                        <ons-row>
+                            <ons-col class="p-1">
+                                <ons-button onclick="CHGPHONE(7)" style="font-size:20px" class="w-100 btn btn-outline-light text-dark">7</ons-button>
+                            </ons-col>
+                            <ons-col class="p-1">
+                                <ons-button onclick="CHGPHONE(8)" style="font-size:20px" class="w-100 btn btn-outline-light text-dark">8</ons-button>
+                            </ons-col>
+                            <ons-col class="p-1">
+                                <ons-button onclick="CHGPHONE(9)" style="font-size:20px" class="w-100 btn btn-outline-light text-dark">9</ons-button>
+                            </ons-col>
+                        </ons-row>
+                        <ons-row>
+                            <ons-col class="p-1">
+                                <ons-button onclick="CLEARNO()" style="font-size:20px" class="w-100 btn btn-outline-danger" style="font-size:12px;">ลบ</ons-button>
+                            </ons-col>
+                            <ons-col class="p-1">
+                                <ons-button onclick="CHGPHONE(0)" style="font-size:20px" class="w-100 btn btn-outline-light text-dark">0</ons-button>
+                            </ons-col>
+                            <ons-col class="p-1">
+                                <ons-button onclick="CONFIRMLOGIN()" style="font-size:20px" class="w-100 btn btn-outline-primary">OK</ons-button>
+                            </ons-col>
+                        </ons-row>
+
+                    </ons-col>
+                </ons-row>
+            </ons-card>
+        </ons-page>
+    </template>
+    <template id="home.html">
+        <ons-page id="home">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="fn.open()">
+                        <ons-icon icon="md-menu"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">
+                    <img src="https://washlover.com/image/logo.png?v=6" style="
+                    height: -webkit-fill-available;
+                    margin: 5px;
+                    ">
+                </div>
+            </ons-toolbar>
+
+            <ons-tabbar swipeable position="bottom">
+                <ons-tab style="height:50px" page="tab1.html" active>
+                    <svg style="height:50px" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-wash-machine"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 3m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" /><path d="M12 14m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M8 6h.01" /><path d="M11 6h.01" /><path d="M14 6h2" /><path d="M8 14c1.333 -.667 2.667 -.667 4 0c1.333 .667 2.667 .667 4 0" /></svg>
+                </ons-tab>
+                <ons-tab style="height:50px" page="tab2.html">
+                    <svg style="height:50px" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-qrcode"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M7 17l0 .01" /><path d="M14 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M7 7l0 .01" /><path d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M17 7l0 .01" /><path d="M14 14l3 0" /><path d="M20 14l0 .01" /><path d="M14 14l0 3" /><path d="M14 20l3 0" /><path d="M17 17l3 0" /><path d="M20 17l0 3" /></svg>
+                </ons-tab>
+                <ons-tab style="height:50px" page="tab3.html">
+                    <svg style="height:50px" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-help"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 17l0 .01" /><path d="M12 13.5a1.5 1.5 0 0 1 1 -1.5a2.6 2.6 0 1 0 -3 -4" /></svg>
+                </ons-tab>
+            </ons-tabbar>
+        </ons-page>
+    </template>
+    <template id="settings.html">
+        <ons-page>
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="fn.open()">
+                        <ons-icon icon="md-menu"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">
+                    Setting
+                </div>
+            </ons-toolbar>
+            <ons-card>
+                <ons-list>
+                    <ons-list-header>คุณสมบัติ พิเศษ</ons-list-header>
+                    <ons-list-item>
+                        <div class="center">
+                            เปิดใช้งานอัตโนมัติ
+                        </div>
+                        <div class="right">
+                            <ons-switch checked></ons-switch>
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="center">
+                            แจ้งเตือน SMS
+                        </div>
+                        <div class="right">
+                            <ons-switch></ons-switch>
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="center">
+                            จัดส่งถึงที่
+                        </div>
+                        <div class="right">
+                            <ons-switch disabled></ons-switch>
+                        </div>
+                    </ons-list-item>
+                </ons-list>
+
+            </ons-card>
+        </ons-page>
+    </template>
+    <template id="dialog.html">
+        <ons-dialog id="my-dialog">
+            <div style="text-align: center; padding: 10px;">
+                <p>
+                    This is a simple dialog!
+                </p>
+                <p>
+                    <ons-button onclick="hideDialog('my-dialog')">Close</ons-button>
+                </p>
+            </div>
+        </ons-dialog>
+    </template>
+    <template id="alert-dialog.html">
+        <ons-alert-dialog id="my-alert-dialog" modifier="rowfooter">
+            <div class="alert-dialog-title">
+                LOGIN
+            </div>
+            <div class="alert-dialog-content">
+                การเข้าสู่ระบบ สำเร็จ
+            </div>
+            <div class="alert-dialog-footer">
+                <ons-alert-dialog-button onclick="hideAlertDialog()">ตกลง</ons-alert-dialog-button>
+            </div>
+        </ons-alert-dialog>
+    </template>
+    <template id="about.html">
+        <ons-page>
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button onclick="fn.open()">
+                        <ons-icon icon="md-menu"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">
+                    ติดต่อเรา
+                </div>
+            </ons-toolbar>
+        </ons-page>
+    </template>
+
+<script>
+    function CONFIRMLOGIN(){
+        var phonex = $('#phone').val();
+        createAlertDialog()
+        
+        if(phonex.length == 10){
+            return false;
+        }
+    }
+    function CLEARNO(){
+        var phonex = $('#phone').val();
+        if(phonex.length == 0){
+            return false;
+        }
+         var length = parseInt(phonex.length)-1;
+         var nom = phonex.substr(0,length);
+        $('#phone').val(nom); 
+    }
+    function CHGPHONE(number){
+        var phone = $('#phone').val();
+        if(phone.length == 10){
+            return false;
+        }
+        $('#phone').val(phone+number);
+    }
+</script>
+<script>
+        window.fn = {};
+        window.fn.open = function() {
+            var menu = document.getElementById('menu');
+            menu.open();
+        };
+
+        window.fn.load = function(page) {
+            var content = document.getElementById('content');
+            var menu = document.getElementById('menu');
+            content.load(page)
+            .then(menu.close.bind(menu));
+        };
+
+        //LOGIN
+        var login = function() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            if (username === 'admin' && password === '1234') {
+                ons.notification.alert('Congratulations!');
+                document.querySelector('ons-navigator').resetToPage('home.html');
+            } else {
+                ons.notification.alert('Incorrect username or password.');
+            }
+        };
+
+        //MODAL
+        function showModal() {
+            var modal = document.querySelector('ons-modal');
+            modal.show();
+            setTimeout(function() {
+                modal.hide();
+            }, 2000);
+        }
+
+        var createAlertDialog = function() {
+            var dialog = document.getElementById('my-alert-dialog');
+            if (dialog) {
+                dialog.show();
+            } else {
+                ons.createElement('alert-dialog.html', {
+                    append: true
+                })
+                .then(function(dialog) {
+                    dialog.show();
+                });
+            }
+        };
+
+        var hideAlertDialog = function() {
+            document
+            .getElementById('my-alert-dialog')
+            .hide();
+        };
+        var notify = function(text) {
+            ons.notification.alert(text);
+        };
+
+
+        var showTemplateDialog = function() {
+            var dialog = document.getElementById('my-dialog');
+            if (dialog) {
+                dialog.show();
+            } else {
+                ons.createElement('dialog.html', {
+                    append: true
+                })
+                .then(function(dialog) {
+                    dialog.show();
+                });
+            }
+        };
+
+        var hideDialog = function(id) {
+            document
+            .getElementById(id)
+            .hide();
+        };
+
+</script>
+</body>
+</html>
