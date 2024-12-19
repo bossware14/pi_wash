@@ -271,8 +271,8 @@ def update_data(json_data):
                     json_data['data']['start'] = 0
                     json_data['data']['action'] = 0
                     json_data['data']['persen'] = 100
-                    #DELAY_ONE(pion['stop'])
-                    #DELAY_STOP(pion['led'])
+                    DELAY_ONE(pion['stop'])
+                    DELAY_STOP(pion['led'])
                 else:
                     json_data['data']['persen'] = 100-TOSEC*100/int(json_data['data']['sec'])
                     json_data['data']['TIMSEC'] = TOSEC
@@ -391,32 +391,33 @@ def page_not_found_400(err):
 ###### iot api
 # ปิดสวิสทั้งหมด
 @app.route('/off',methods=['GET'])
-def stop_run():
-    LEDSTOP(7)
-    LEDSTOP(17)
-    LEDSTOP(27)
-    LEDSTOP(22)
-    LEDSTOP(23)
-    LEDSTOP(24)
-    LEDSTOP(18)
+def stop_run_app():
+    DELAY_STOP(pion['led'])
+    DELAY_STOP(pion['start'])
+    DELAY_STOP(pion['stop'])
+    DELAY_STOP(pion['modewash'])
+    DELAY_STOP(pion['temperature'])
+    DELAY_STOP(pion['timeout'])
+    DELAY_STOP(pion['on'])
     msg = {}
     msg['status'] = "success"
     msg['msg'] = "ปิดทั้งหมด"
     return jsonify(msg),200
 #เปิดทั่งหมด
 @app.route('/on',methods=['GET'])
-def on_run():
-    LEDSTART(7)
-    LEDSTART(17)
-    LEDSTART(27)
-    LEDSTART(22)
-    LEDSTART(23)
-    LEDSTART(24)
-    LEDSTART(18)
+def on_run_appp():
+    DELAY_SWIFT(pion['led'])
+    DELAY_SWIFT(pion['start'])
+    DELAY_SWIFT(pion['stop'])
+    DELAY_SWIFT(pion['modewash'])
+    DELAY_SWIFT(pion['temperature'])
+    DELAY_SWIFT(pion['timeout'])
+    DELAY_SWIFT(pion['on'])
     msg = {}
     msg['status'] = "success"
     msg['msg'] = "เปิดทั้งหมด"
     return jsonify(msg),200
+
 StartServer()
 if __name__ == '__main__':
     socketio.run(app,host="0.0.0.0",port="5000", debug=False)
