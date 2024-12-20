@@ -25,12 +25,13 @@ socketio = SocketIO(app,cors_allowed_origins="*")
 CORS(app)
 
 def onstartled1(id):
- led = LED(int(id))
- led.on() 
- time.sleep(0.1)
- led.off()
- time.sleep(0.1)
- return f"success"
+ try:
+  os.system('gpioset gpiochip4 `${int(number)}`=1')
+  time.sleep(1)
+  os.system('gpioset gpiochip4 `${int(number)}`=0')
+  return f"success"
+ except:
+  return f"error"
 
 def onstartled2(id):
  led = LED(int(id))
