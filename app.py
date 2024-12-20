@@ -11,7 +11,9 @@ import json
 from datetime import datetime, timezone, timedelta
 import socket
 
-#    pip install flask flask-socketio gpiod subprocess Flask-Cors
+# sudo apt install python-setuptools python3-setuptools
+# sudo apt-get install pigpio 
+#    pip install flask flask-socketio gpiod subprocess flask-cors
 #    pip install gunicorn
 # sudo chmod -R 777 /var/www/html
 # cp index.html /var/www/html
@@ -316,7 +318,7 @@ def update_data(json_data):
                     json_data['data']['start'] = 0
                     json_data['data']['action'] = 0
                     json_data['data']['persen'] = 100
-                    DELAY_ONE(pion['stop'],'ok')
+                    DELAY_SWIFT(pion['stop'],'ok')
                     DELAY_STOP(pion['led'])
                 else:
                     json_data['data']['persen'] = 100-TOSEC*100/int(json_data['data']['sec'])
@@ -371,7 +373,7 @@ def handleMessage(msg):
           
           update = timezone(timedelta(hours=7,minutes=int(json_data['data']['action'])))
           json_data['data']['minute'] = '00:'+str(json_data['data']['action'])+':00'
-          DELAY_ONE(pion['timeout'],str(json_data['data']['action']))
+          DELAY_SWIFT(pion['timeout'],str(json_data['data']['action']))
 
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
@@ -389,7 +391,7 @@ def handleMessage(msg):
           json_data['data']['monitor'] = 'เสร็จแล้ว'
           json_data['data']['msg'] = 'สิ้นสุดการทำงาน'
           json_data['data']['update'] = datetime.now(tz=tz).strftime('%Y-%m-%d %H:%M:%S')
-          DELAY_ONE(pion['stop'],'stop')
+          DELAY_SWIFT(pion['stop'],'stop')
           #DELAY_STOP(pion['on'])
           DELAY_STOP(pion['led'])
           with open('data.json', 'w') as f:
@@ -399,7 +401,7 @@ def handleMessage(msg):
 
        if res["status"] == 'start':
           mins = int(jsopn_mode[json_data['data']['modewash']])
-          DELAY_ONE(pion['start'],'start')
+          DELAY_SWIFT(pion['start'],'start')
           DELAY_START(pion['led'])
           #DELAY_START(pion['on'])
           update = timezone(timedelta(hours=7,minutes=mins))
