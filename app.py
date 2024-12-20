@@ -127,8 +127,8 @@ def DELAY_SWIFT(number,value):
   chip.close()
   return f"success"
  except:
-  print('lederror)
   return f"error"
+  
 #เปิด-ปิด 1วินาที
 def DELAY_ONE(number,value):
  try:
@@ -160,6 +160,8 @@ def DELAY_STOP(number):
   chip.close()
   return f"success"
  except:
+  led_line.release()
+  chip.close()
   return f"error"
 #เปิดค้าง
 def DELAY_START(number):
@@ -170,7 +172,7 @@ def DELAY_START(number):
   led_line = chip.get_line(LED_PIN)
   led_line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
   led_line.set_value(1)
-  #led_line.release()
+  led_line.release()
   chip.close()
   return f"success"
  except:
