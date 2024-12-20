@@ -27,11 +27,19 @@ CORS(app)
 def onstartled1(id):
  led = LED(int(id))
  led.on() 
+ time.sleep(0.1)
+ led.off()
+ time.sleep(0.1)
+ return "1"
+
+def onstartled2(id):
+ led = LED(int(id))
+ led.on() 
  time.sleep(1)
  led.off()
  time.sleep(1)
  return "1"
-    
+ 
 def SetUp():
     os.system("sudo chmod -R 777 /var/www/html")
     os.system("cp index.html /var/www/html")
@@ -108,6 +116,7 @@ def START_APP():
 def DELAY_SWIFT(number,value):
  try:
   LED_PIN = number
+  return onstartled1(number)
   chip = gpiod.Chip('gpiochip4')
   led_line = chip.get_line(LED_PIN)
   led_line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
@@ -122,6 +131,7 @@ def DELAY_SWIFT(number,value):
 #เปิด-ปิด 1วินาที
 def DELAY_ONE(number,value):
  try:
+  return onstartled1(number)
   LED_PIN = number#17 ขาจ่ายไฟ
   chip = gpiod.Chip('gpiochip4')
   led_line = chip.get_line(LED_PIN)
@@ -139,6 +149,7 @@ def DELAY_ONE(number,value):
 #ปิด
 def DELAY_STOP(number):
  try:
+  return onstartled1(number)
   LED_PIN = number
   chip = gpiod.Chip('gpiochip4')
   led_line = chip.get_line(LED_PIN)
@@ -152,6 +163,7 @@ def DELAY_STOP(number):
 #เปิดค้าง
 def DELAY_START(number):
  try:
+  return onstartled1(number)
   LED_PIN = number
   chip = gpiod.Chip('gpiochip4')
   led_line = chip.get_line(LED_PIN)
