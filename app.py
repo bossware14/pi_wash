@@ -28,7 +28,7 @@ def onstartled1(id):
  try:
   os.system('gpioset gpiochip4 `${int(number)`=1')
   time.sleep(1)
-  os.system('gpioset gpiochip4 `${int(number)}`=0')
+  os.system("gpioset gpiochip4 "+int(number)+"=0")
   return f"success"
  except:
   return f"error"
@@ -118,7 +118,7 @@ def DELAY_SWIFT(number,value):
  try:
   os.system("gpioset gpiochip4 "+int(number)+"=1")
   time.sleep(1)
-  os.system('gpioset gpiochip4 `${int(number)}`=0')
+  os.system("gpioset gpiochip4 "+int(number)+"=0")
   return f"success"
   LED_PIN = number
   #return onstartled1(number)
