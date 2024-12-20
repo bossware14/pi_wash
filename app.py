@@ -462,6 +462,7 @@ def on_run_appp():
     msg['msg'] = "เปิดทั้งหมด"
     return jsonify(msg),200
 
+SetUp()
 os.system("pkill chromium")
 subprocess.Popen(['chromium-browser','--start-fullscreen','http://localhost']) 
 #subprocess.call('chromium-browser --start-fullscreen --kiosk http://localhost/', shell=True)
