@@ -48,13 +48,21 @@
     <script>
 $('#AppStart').attr('disabled',true);
 $('#AppStop').attr('disabled',true);
+var onclick = 1;
+var RUNTIME = setInterval(() => {
+    
+}, 1000);
 
         var socket = io.connect(':5000');
         document.addEventListener('DOMContentLoaded', (event) => {
             socket.on('connect', function() {
                 socket.send('connect');
+                console.log('connect')
             });
+            console.log('event',event)
+            
             socket.on('message', function(str) {
+                console.log('message',str)
                 console.log(str)
                 $('#STATUS_LED').val(str.data.monitor)
                 if(str.status == 'error'){
@@ -75,7 +83,6 @@ $('#AppStop').attr('disabled',true);
                 $('#monitor').val(str.data.monitor);
                 $('#modewash').val(str.data.modewash);
                 $('#temperature').val(str.data.temperature);
-
                 $('#'+str.data.modewash).attr('checked',true);
                 $('#'+str.data.temperature).attr('checked',true);
                 $('#RUNTIME').html(str.data.runtime);
@@ -89,6 +96,8 @@ $('#AppStop').attr('disabled',true);
                     $('#AppStart').show();
                     $('#AppStop').hide();
                     clearInterval(RUNTIME);
+                    //RUNTIME = null;
+                    input_dis(false);
                 }else{
                     $('.modewash').attr('disabled',true);
                     $('.temperature').attr('disabled',true);
@@ -96,9 +105,12 @@ $('#AppStop').attr('disabled',true);
                     $('#AppStart').attr('disabled',true);
                     $('#AppStart').hide();
                     $('#AppStop').show();
+                    onclick = 2;
+                    input_dis(true);
                 }
             });
         });
+
 
 
 function res_id(id,str){
@@ -106,6 +118,11 @@ function res_id(id,str){
 }
 
 function CheckData(){
+    if(onclick == 2){
+        return false;
+    }
+    console.log('check')
+    onclick = 2;
 var data = {}
 data.status = 'message';
 data.key = 'start';
@@ -114,6 +131,11 @@ socket.send(JSON.stringify(data));
 }
 
 function modewash(no){
+    if(onclick == 2){
+        return false;
+    }
+    console.log('mode')
+    onclick = 2;
 var data = {} 
 data.status = 'update';
 data.key = 'modewash';
@@ -122,6 +144,11 @@ socket.send(JSON.stringify(data));
 }
 
 function temperature(no){
+    if(onclick == 2){
+        return false;
+    }
+    onclick = 2;
+    console.log(no)
 var data = {} 
 data.status = 'update';
 data.key = 'temperature';
@@ -130,6 +157,11 @@ socket.send(JSON.stringify(data));
 }
 
 function AppStop(){
+    if(onclick == 2){
+        return false;
+    }
+    onclick = 2;
+    console.log('stop')
 var data = {} 
 data.status = 'stop';
 data.key = 'start';
@@ -139,35 +171,26 @@ clearInterval(RUNTIME)
 }
 
 function AppStart(){
-var data = {} 
-data.status = 'start';
-data.key = 'timeout';
-data.value = 10;
-socket.send(JSON.stringify(data));
-var RUNTIME = setInterval(function(){CheckData(); }, 1000);
+    if(onclick == 2){
+        return false;
+    }
+    console.log('start')
+    onclick = 2;
+    var data = {} 
+    data.status = 'start';
+    data.key = 'timeout';
+    data.value = 10;
+    socket.send(JSON.stringify(data));
+    RUNTIME = setInterval(function(){CheckData(); }, 1000);
 }
 
+function input_dis(str){
+    $('input').attr('disabled',str);
+    //$('button').attr('disabled',str);
+}
 </script>
 </head>
 <body>
-<h1>Flask Socket.IO</h1>
-<input id="msg" disabled value="Loading.." type="text">
-<br>
-<button class="btn btn-primary" onclick="CheckData()">Check</button>
-<br>
-<button class="btn btn-primary" onclick="modewash(1)">ซักปกติ</button>
-<button class="btn btn-primary" onclick="modewash(2)">ซักด่วน</button>
-<button class="btn btn-primary" onclick="modewash(3)">ผ้าหุ่มที่นอน</button>
-<button class="btn btn-primary" onclick="modewash(4)">ถนอมผ้า</button>
-<br>
-<button class="btn btn-primary" onclick="temperature(1)">น้ำปกติ</button>
-<button class="btn btn-primary" onclick="temperature(2)">น้ำอุ่น</button>
-<button class="btn btn-primary" onclick="temperature(3)">น้ำเย็น</button>
-<br>
-<button class="btn btn-primary" onclick="StartWash()">เริ่มทำงาน</button>
-<button class="btn btn-danger" onclick="StopWash()">หยุด</button>
-<div id="status"></div>
-
     <ons-splitter>
         <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
             <ons-page>
@@ -226,20 +249,20 @@ var RUNTIME = setInterval(function(){CheckData(); }, 1000);
                         </div>
                         <div class="mt-2 row" style="padding:5px;">
                             <div class="col-6">
-                                <input onclick="modewash(1);$('#modewash').val('modewash1');" type="radio" class="btn-check modewash" name="modewash" id="modewash1">
+                                <input onclick="modewash(1);$('#modewash').val('modewash1');input_dis(true);$(this).attr('disabled',true);" type="radio" class="btn-check modewash" name="modewash" id="modewash1">
                                 <label class="btn btn-outline-primary w-100 mb-2" for="modewash1">ซักปกติ</label>
                             </div>
                             <div class="col-6">
-                                <input onclick="modewash(2);$('#modewash').val('modewash2');" type="radio" class="btn-check modewash" name="modewash" id="modewash2">
+                                <input onclick="modewash(2);$('#modewash').val('modewash2');input_dis(true);$(this).attr('disabled',true);" type="radio" class="btn-check modewash" name="modewash" id="modewash2">
                                 <label class="btn btn-outline-primary w-100 mb-2" for="modewash2">ซักด่วน</label>
 
                             </div>
                             <div class="col-6">
-                                <input onclick="modewash(3);$('#modewash').val('modewash3');" type="radio" class="btn-check modewash" name="modewash" id="modewash3">
+                                <input onclick="modewash(3);$('#modewash').val('modewash3');input_dis(true);$(this).attr('disabled',true);" type="radio" class="btn-check modewash" name="modewash" id="modewash3">
                                 <label class="btn btn-outline-primary w-100 mb-2" for="modewash3">ผ้าหุ่ม</label>
                             </div>
                             <div class="col-6">
-                                <input onclick="modewash(4);$('#modewash').val('modewash4');" type="radio" class="btn-check modewash" name="modewash" id="modewash4">
+                                <input onclick="modewash(4);$('#modewash').val('modewash4');input_dis(true);$(this).attr('disabled',true);" type="radio" class="btn-check modewash" name="modewash" id="modewash4">
                                 <label class="btn btn-outline-primary w-100 mb-2" for="modewash4">ซักถนอม</label>
                             </div>
                             <input id="modewash" type="hidden" value="">
@@ -248,17 +271,17 @@ var RUNTIME = setInterval(function(){CheckData(); }, 1000);
                             <label style="font-weight:400;margin-bottom:5px;">อุณหภูมิ น้ำ</label>
                             <br>
                             <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check temperature"  onclick="temperature(1);$('#temperature').val('temperature1');" name="temperature" id="temperature1">
+                                <input type="radio" class="btn-check temperature"  onclick="input_dis(true);temperature(1);$('#temperature').val('temperature1');$(this).attr('disabled',true);" name="temperature" id="temperature1">
                                 <label class="btn btn-outline-primary" for="temperature1">ปกติ</label>
-                                <input type="radio" class="btn-check temperature" onclick="temperature(2);$('#temperature').val('temperature2');" name="temperature" id="temperature2">
+                                <input type="radio" class="btn-check temperature" onclick="input_dis(true);temperature(2);$('#temperature').val('temperature2');$(this).attr('disabled',true);" name="temperature" id="temperature2">
                                 <label class="btn btn-outline-primary" for="temperature2">น้ำอุ่น</label>
-                                <input type="radio" class="btn-check temperature" onclick="temperature(3);$('#temperature').val('temperature3');" name="temperature" id="temperature3">
+                                <input type="radio" class="btn-check temperature" onclick="input_dis(true);temperature(3);$('#temperature').val('temperature3');$(this).attr('disabled',true);" name="temperature" id="temperature3">
                                 <label class="btn btn-outline-primary" for="temperature3">น้ำเย็น</label>
                                 <input id="temperature" type="hidden" value="">
                             </div>
                             <div class="btn-group w-100" role="group">
-                                    <button onclick="AppStop();$('.modewash').attr('disabled',false);$('.temperature').attr('disabled',false);"  id="AppStop" style="font-size:20px" class="w-100 mt-3 btn btn-outline-danger">สิ้นสุด</button>
-                                    <button onclick="AppStart();$('.modewash').attr('disabled',true);$('.temperature').attr('disabled',true);"  id="AppStart" style="font-size:20px" class="w-100 mt-3 btn btn-outline-success">เริ่มการทำงาน</button>
+                                    <button onclick="input_dis(true);AppStop();$('.modewash').attr('disabled',false);$('.temperature').attr('disabled',false);$(this).attr('disabled',true);"  id="AppStop" style="font-size:20px" class="w-100 mt-3 btn btn-outline-danger">สิ้นสุด</button>
+                                    <button onclick="input_dis(true);AppStart();$('.modewash').attr('disabled',true);$('.temperature').attr('disabled',true);$(this).attr('disabled',true);"  id="AppStart" style="font-size:20px" class="w-100 mt-3 btn btn-outline-success">เริ่มการทำงาน</button>
                             </div></div>
                     </ons-col>
                 </ons-row>
