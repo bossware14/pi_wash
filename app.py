@@ -144,7 +144,7 @@ def DELAY_START(number):
   led_line = chip.get_line(LED_PIN)
   led_line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
   led_line.set_value(1)
-  led_line.release()
+  #led_line.release()
   chip.close()
   return f"success"
  except:
@@ -293,7 +293,7 @@ def update_data(json_data):
                 xper = HOUR-MIN-SEC
                 if xper <= 0 :
                     json_data['data']['persen'] = 100
-                TOSEC = 0
+                TOSEC = 0#int(json_data['data']['TIMSEC'])
                 if HOUR > 0:
                     TOSEC = TOSEC + int(HOUR*60)
                 if MIN > 0:
@@ -316,8 +316,8 @@ def update_data(json_data):
                     json_data['data']['start'] = 0
                     json_data['data']['action'] = 0
                     json_data['data']['persen'] = 100
-                    DELAY_ONE(pion['stop'])
-                    DELAY_STOP(pion['led'])
+                    DELAY_ONE(pion['stop'],'ok')
+                    DELAY_STOP(pion['on'])
                 else:
                     json_data['data']['persen'] = 100-TOSEC*100/int(json_data['data']['sec'])
                     json_data['data']['TIMSEC'] = TOSEC
@@ -389,8 +389,9 @@ def handleMessage(msg):
           json_data['data']['monitor'] = 'เสร็จแล้ว'
           json_data['data']['msg'] = 'สิ้นสุดการทำงาน'
           json_data['data']['update'] = datetime.now(tz=tz).strftime('%Y-%m-%d %H:%M:%S')
-          DELAY_ONE(pion['stop'])
+          DELAY_ONE(pion['stop'],'stop')
           DELAY_STOP(pion['led'])
+          DELAY_STOP(pion['on'])
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
           return send(json_data, broadcast=True)
@@ -398,6 +399,9 @@ def handleMessage(msg):
 
        if res["status"] == 'start':
           mins = int(res["value"])
+          DELAY_ONE(pion['start'],'start')
+          DELAY_START(pion['led'])
+          DELAY_START(pion['on'])
           update = timezone(timedelta(hours=7,minutes=mins))
           json_data['data']['update'] = datetime.now(tz=tz).strftime('%Y-%m-%d %H:%M:%S')
           json_data['data']['time'] = datetime.now(tz=tz).strftime('%H:%M:%S')
@@ -410,8 +414,7 @@ def handleMessage(msg):
           json_data['data']['status'] = 'START'
           json_data['data']['monitor'] = 'เริ่มซักผ้า'
           json_data['data']['msg'] = 'เริ่มต้นการทำงาน'
-          DELAY_ONE(pion['start'])
-          DELAY_START(pion['led'])
+
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
           #return send('เริ่มต้นการทำงาน', broadcast=True)
@@ -450,13 +453,13 @@ def stop_run_app():
 #เปิดทั่งหมด
 @app.route('/on',methods=['GET'])
 def on_run_appp():
-    DELAY_SWIFT(pion['led'])
-    DELAY_SWIFT(pion['start'])
-    DELAY_SWIFT(pion['stop'])
-    DELAY_SWIFT(pion['modewash'])
-    DELAY_SWIFT(pion['temperature'])
-    DELAY_SWIFT(pion['timeout'])
-    DELAY_SWIFT(pion['on'])
+    DELAY_START(pion['led'])
+    DELAY_START(pion['start'])
+    DELAY_START(pion['stop'])
+    DELAY_START(pion['modewash'])
+    DELAY_START(pion['temperature'])
+    DELAY_START(pion['timeout'])
+    DELAY_START(pion['on'])
     msg = {}
     msg['status'] = "success"
     msg['msg'] = "เปิดทั้งหมด"
@@ -464,7 +467,7 @@ def on_run_appp():
 
 SetUp()
 os.system("pkill chromium")
-subprocess.Popen(['chromium-browser','--start-fullscreen','http://localhost']) 
+subprocess.Popen(['chromium-browser','--start-fullscreen','http://localhost:5000']) 
 #subprocess.call('chromium-browser --start-fullscreen --kiosk http://localhost/', shell=True)
 #StartServer()
 if __name__ == '__main__':
