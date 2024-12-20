@@ -8,7 +8,7 @@ git clone https://github.com/bossware14/pi_wash.git
 
 cd pi_wash
 
-pip install flask flask-socketio gpiod subprocess Flask-Cors
+pip install flask flask-socketio gpiod flask-cors
 
 python3 app.py
 # เชคการอัพเดทล่าสุด
