@@ -25,7 +25,7 @@ socketio = SocketIO(app,cors_allowed_origins="*")
 CORS(app)
 
 def onstartled1(id):
- led = LED(int(id)
+ led = LED(int(id))
  led.on() 
  time.sleep(1)
  led.off()
