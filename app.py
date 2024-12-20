@@ -127,6 +127,7 @@ def DELAY_SWIFT(number,value):
   chip.close()
   return f"success"
  except:
+  print('lederror)
   return f"error"
 #เปิด-ปิด 1วินาที
 def DELAY_ONE(number,value):
@@ -489,6 +490,7 @@ def on_run_appp():
     msg['status'] = "success"
     msg['msg'] = "เปิดทั้งหมด"
     return jsonify(msg),200
+    
 #เปิดทั่งหมด
 @app.route('/led',methods=['GET'])
 def on_led_app():
@@ -500,6 +502,27 @@ def on_led_app():
     msg['status'] = "success"
     msg['msg'] = url
     return jsonify(msg),200
+
+#เปิดทั่ง
+@app.route('/le',methods=['GET'])
+def on_led_app2():
+    url = request.args.get('id')
+    if not url:
+        return jsonify({"status": "error"}), 200
+    LED_PIN = int(url)
+    chip = gpiod.Chip('gpiochip4')
+    led_line = chip.get_line(LED_PIN)
+    led_line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
+    led_line.set_value(1)
+    time.sleep(1)
+    led_line.set_value(0)
+    led_line.release()
+    chip.close()
+    msg = {}
+    msg['status'] = "success"
+    msg['msg'] = url
+    return jsonify(msg),200
+
 
 SetUp()
 os.system("pkill chromium")
