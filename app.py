@@ -204,7 +204,7 @@ pion['stop']        = 18 #delay หยุดปั่น
 pion['modewash']    = 22 #delay ตั้งค่าการปั่น 1-4
 pion['temperature'] = 23 #delay ตั้งค่าอุณภูมิ 1-3
 pion['timeout']     = 24 #delay ตั้งค่าเวลา
-pion['on']          = 27 #delay อื่นๆ
+pion['on']          = 27 #delay ไฟติดค้าง
 
 
 #ตั้งค่า MODE นาที
@@ -317,7 +317,7 @@ def update_data(json_data):
                     json_data['data']['action'] = 0
                     json_data['data']['persen'] = 100
                     DELAY_ONE(pion['stop'],'ok')
-                    DELAY_STOP(pion['on'])
+                    DELAY_STOP(pion['led'])
                 else:
                     json_data['data']['persen'] = 100-TOSEC*100/int(json_data['data']['sec'])
                     json_data['data']['TIMSEC'] = TOSEC
@@ -390,8 +390,8 @@ def handleMessage(msg):
           json_data['data']['msg'] = 'สิ้นสุดการทำงาน'
           json_data['data']['update'] = datetime.now(tz=tz).strftime('%Y-%m-%d %H:%M:%S')
           DELAY_ONE(pion['stop'],'stop')
-          DELAY_STOP(pion['led'])
           DELAY_STOP(pion['on'])
+          DELAY_STOP(pion['led'])
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
           return send(json_data, broadcast=True)
@@ -466,11 +466,11 @@ def on_run_appp():
     return jsonify(msg),200
 #เปิดทั่งหมด
 @app.route('/led',methods=['GET'])
-def on_led():
+def on_led_app():
     url = request.args.get('id')
     if not url:
         return jsonify({"status": "error"}), 200
-    DELAY_START(url)
+    DELAY_START(int(url))
     msg = {}
     msg['status'] = "success"
     msg['msg'] = url
