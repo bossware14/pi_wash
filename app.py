@@ -209,10 +209,10 @@ pion['on']          = 27 #delay อื่นๆ
 
 #ตั้งค่า MODE นาที
 jsopn_mode = {}
-jsopn_mode['modewash1'] = 15
-jsopn_mode['modewash2'] = 10
-jsopn_mode['modewash3'] = 30
-jsopn_mode['modewash4'] = 25
+jsopn_mode['modewash1'] = 1
+jsopn_mode['modewash2'] = 2
+jsopn_mode['modewash3'] = 3
+jsopn_mode['modewash4'] = 4
 # Monitor แสดง
 mode_wash = {}
 mode_wash['modewash1'] = 'ซักปกติ'   #
@@ -398,7 +398,7 @@ def handleMessage(msg):
           #return send('สิ้นสุดการทำงาน', broadcast=True)
 
        if res["status"] == 'start':
-          mins = int(res["value"])
+          mins = int(jsopn_mode[json_data['data']['modewash']])
           DELAY_ONE(pion['start'],'start')
           DELAY_START(pion['led'])
           DELAY_START(pion['on'])
