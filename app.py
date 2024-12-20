@@ -464,6 +464,17 @@ def on_run_appp():
     msg['status'] = "success"
     msg['msg'] = "เปิดทั้งหมด"
     return jsonify(msg),200
+#เปิดทั่งหมด
+@app.route('/led',methods=['GET'])
+def on_led():
+    url = request.args.get('id')
+    if not url:
+        return jsonify({"status": "error"}), 200
+    DELAY_START(url)
+    msg = {}
+    msg['status'] = "success"
+    msg['msg'] = url
+    return jsonify(msg),200
 
 SetUp()
 os.system("pkill chromium")
