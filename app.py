@@ -198,13 +198,13 @@ else:
 
 #ขาวงจร
 pion = {}
-pion['led']         = 7 #ไฟแสดง การทำงานของเครื่อง (ไฟโชว)
+pion['led']         = 27 #ไฟแสดง การทำงานของเครื่อง (ไฟโชว)
 pion['start']       = 17 #delay เริ่มทำงาน
 pion['stop']        = 18 #delay หยุดปั่น
 pion['modewash']    = 22 #delay ตั้งค่าการปั่น 1-4
 pion['temperature'] = 23 #delay ตั้งค่าอุณภูมิ 1-3
 pion['timeout']     = 24 #delay ตั้งค่าเวลา
-pion['on']          = 27 #delay ไฟติดค้าง
+pion['on']          = 7 #delay 
 
 
 #ตั้งค่า MODE นาที
@@ -390,7 +390,7 @@ def handleMessage(msg):
           json_data['data']['msg'] = 'สิ้นสุดการทำงาน'
           json_data['data']['update'] = datetime.now(tz=tz).strftime('%Y-%m-%d %H:%M:%S')
           DELAY_ONE(pion['stop'],'stop')
-          DELAY_STOP(pion['on'])
+          #DELAY_STOP(pion['on'])
           DELAY_STOP(pion['led'])
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
@@ -401,7 +401,7 @@ def handleMessage(msg):
           mins = int(jsopn_mode[json_data['data']['modewash']])
           DELAY_ONE(pion['start'],'start')
           DELAY_START(pion['led'])
-          DELAY_START(pion['on'])
+          #DELAY_START(pion['on'])
           update = timezone(timedelta(hours=7,minutes=mins))
           json_data['data']['update'] = datetime.now(tz=tz).strftime('%Y-%m-%d %H:%M:%S')
           json_data['data']['time'] = datetime.now(tz=tz).strftime('%H:%M:%S')
@@ -470,7 +470,7 @@ def on_led_app():
     url = request.args.get('id')
     if not url:
         return jsonify({"status": "error"}), 200
-    DELAY_START(int(url))
+    DELAY_ONE(int(url),url)
     msg = {}
     msg['status'] = "success"
     msg['msg'] = url
