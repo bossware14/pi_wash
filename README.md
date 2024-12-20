@@ -17,7 +17,7 @@ cd ~/Desktop/pi_wash
 git pull https://github.com/bossware14/pi_wash.git
  
 # โปรดติดตั้ง Python 3
-pip install flask flask-socketio gpiod subprocess flask_socketio
+pip install flask flask-socketio gpiod flask-cors
 
 # วิธีรัน
 python3 app.py
