@@ -28,7 +28,7 @@ def onstartled1(id):
  try:
   os.system('gpioset gpiochip4 `${int(number)`=1')
   time.sleep(1)
-  os.system("gpioset gpiochip4 "+int(number)+"=0")
+  os.system("gpioset gpiochip4 18=0")
   return f"success"
  except:
   return f"error"
@@ -116,9 +116,9 @@ def START_APP():
 #เปิดและปิด 0.1 วิ
 def DELAY_SWIFT(number,value):
  try:
-  os.system("gpioset gpiochip4 "+int(number)+"=1")
+  os.system("gpioset gpiochip4 18=1")
   time.sleep(1)
-  os.system("gpioset gpiochip4 "+int(number)+"=0")
+  os.system("gpioset gpiochip4 18=0")
   return f"success"
   LED_PIN = number
   #return onstartled1(number)
@@ -137,9 +137,9 @@ def DELAY_SWIFT(number,value):
 #เปิด-ปิด 1วินาที
 def DELAY_ONE(number,value):
  try:
-  os.system('gpioset gpiochip4 '+number+'=1')
+  os.system("gpioset gpiochip4 18=1")
   time.sleep(1)
-  os.system('gpioset gpiochip4 '+number+'=0')
+  os.system("gpioset gpiochip4 18=0")
   return f"success"
   #return onstartled1(number)
   LED_PIN = number#17 ขาจ่ายไฟ
@@ -159,7 +159,7 @@ def DELAY_ONE(number,value):
 #ปิด
 def DELAY_STOP(number):
  try:
-  os.system('gpioset gpiochip4 '+number+'=0')
+  os.system("gpioset gpiochip4 18=0")
   return f"success"
   # return onstartled1(number)
   LED_PIN = number
@@ -177,7 +177,7 @@ def DELAY_STOP(number):
 #เปิดค้าง
 def DELAY_START(number):
  try:
-  os.system('gpioset gpiochip4 '+number+'=1')
+  os.system("gpioset gpiochip4 18=1")
   return f"success"
   #return onstartled1(number)
   LED_PIN = number
