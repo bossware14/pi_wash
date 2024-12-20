@@ -10,6 +10,8 @@ import signal
 import json
 from datetime import datetime, timezone, timedelta
 import socket
+from gpiozero import LED
+from time import sleep
 
 # sudo apt install python-setuptools python3-setuptools
 # sudo apt-get install pigpio 
@@ -22,6 +24,14 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app,cors_allowed_origins="*")
 CORS(app)
 
+def onstartled1(id):
+ led = LED(int(id)
+ led.on() 
+ sleep(1)
+ led.off()
+ sleep(1)
+ return "1"
+    
 def SetUp():
     os.system("sudo chmod -R 777 /var/www/html")
     os.system("cp index.html /var/www/html")
@@ -473,7 +483,7 @@ def on_led_app():
     url = request.args.get('id')
     if not url:
         return jsonify({"status": "error"}), 200
-    DELAY_ONE(int(url),url)
+    onstartled1(int(url))
     msg = {}
     msg['status'] = "success"
     msg['msg'] = url
