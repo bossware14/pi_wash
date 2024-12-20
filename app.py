@@ -30,7 +30,7 @@ def onstartled1(id):
  time.sleep(0.1)
  led.off()
  time.sleep(0.1)
- return "1"
+ return f"success"
 
 def onstartled2(id):
  led = LED(int(id))
@@ -38,7 +38,7 @@ def onstartled2(id):
  time.sleep(1)
  led.off()
  time.sleep(1)
- return "1"
+ return f"success"
  
 def SetUp():
     os.system("sudo chmod -R 777 /var/www/html")
