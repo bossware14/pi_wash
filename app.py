@@ -26,7 +26,7 @@ CORS(app)
 
 def onstartled1(id):
  try:
-  os.system('gpioset gpiochip4 `${int(number)}`=1')
+  os.system('gpioset gpiochip4 `${int(number)`=1')
   time.sleep(1)
   os.system('gpioset gpiochip4 `${int(number)}`=0')
   return f"success"
@@ -116,7 +116,7 @@ def START_APP():
 #เปิดและปิด 0.1 วิ
 def DELAY_SWIFT(number,value):
  try:
-  os.system('gpioset gpiochip4 `${int(number)}`=1')
+  os.system("gpioset gpiochip4 "+int(number)+"=1")
   time.sleep(1)
   os.system('gpioset gpiochip4 `${int(number)}`=0')
   return f"success"
@@ -539,9 +539,9 @@ def on_led_app2():
     return jsonify(msg),200
 
 
-SetUp()
-os.system("pkill chromium")
-subprocess.Popen(['chromium-browser','--start-fullscreen','http://localhost:5000']) 
+#SetUp()
+#os.system("pkill chromium")
+#subprocess.Popen(['chromium-browser','--start-fullscreen','http://localhost:5000']) 
 #subprocess.call('chromium-browser --start-fullscreen --kiosk http://localhost/', shell=True)
 #StartServer()
 if __name__ == '__main__':
