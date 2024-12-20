@@ -116,6 +116,10 @@ def START_APP():
 #เปิดและปิด 0.1 วิ
 def DELAY_SWIFT(number,value):
  try:
+  os.system('gpioset gpiochip4 `${int(number)}`=1')
+  time.sleep(1)
+  os.system('gpioset gpiochip4 `${int(number)}`=0')
+  return f"success"
   LED_PIN = number
   #return onstartled1(number)
   chip = gpiod.Chip('gpiochip4')
@@ -133,6 +137,10 @@ def DELAY_SWIFT(number,value):
 #เปิด-ปิด 1วินาที
 def DELAY_ONE(number,value):
  try:
+  os.system('gpioset gpiochip4 `${int(number)}`=1')
+  time.sleep(1)
+  os.system('gpioset gpiochip4 `${int(number)}`=0')
+  return f"success"
   #return onstartled1(number)
   LED_PIN = number#17 ขาจ่ายไฟ
   chip = gpiod.Chip('gpiochip4')
@@ -145,13 +153,15 @@ def DELAY_ONE(number,value):
   chip.close()
   return f"success"
  except:
-  led_line.release()
-  chip.close()
+  #led_line.release()
+  #chip.close()
   return f"error"
 #ปิด
 def DELAY_STOP(number):
  try:
- # return onstartled1(number)
+  os.system('gpioset gpiochip4 `${int(number)}`=0')
+  return f"success"
+  # return onstartled1(number)
   LED_PIN = number
   chip = gpiod.Chip('gpiochip4')
   led_line = chip.get_line(LED_PIN)
@@ -161,12 +171,14 @@ def DELAY_STOP(number):
   chip.close()
   return f"success"
  except:
-  led_line.release()
-  chip.close()
+  #led_line.release()
+  #chip.close()
   return f"error"
 #เปิดค้าง
 def DELAY_START(number):
  try:
+  os.system('gpioset gpiochip4 `${int(number)}`=1')
+  return f"success"
   #return onstartled1(number)
   LED_PIN = number
   chip = gpiod.Chip('gpiochip4')
@@ -177,8 +189,8 @@ def DELAY_START(number):
   chip.close()
   return f"success"
  except:
-  led_line.release()
-  chip.close()
+  #led_line.release()
+  #chip.close()
   return f"error"
 
 if os.path.isfile('data.json'):
