@@ -11,25 +11,27 @@ import json
 from datetime import datetime, timezone, timedelta
 import socket
 
-#    pip install flask flask-socketio gpiod
+#    pip install flask flask-socketio gpiod 
 #    pip install gunicorn
-app = Flask(__name__,template_folder="")
+# sudo chmod -R 777 /var/www/html
+# cp index.html /var/www/html
+app = Flask(__name__,template_folder="./")
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app)
+socketio = SocketIO(app,cors_allowed_origins="*")
 CORS(app)
+
+def SetUp():
+    os.system("sudo chmod -R 777 /var/www/html")
+    os.system("cp index.html /var/www/html")
+
 
 def StartServer():
     os.system("pkill chromium")
-    subprocess.Popen(['chromium-browser','--start-fullscreen','--kiosk', 'http://localhost:5000']) 
-
-def StartApp():
-    os.system("pkill chromium")
-    subprocess.Popen(['chromium-browser','--start-fullscreen','--kiosk', 'http://localhost:5000/server']) 
+    subprocess.Popen(['chromium-browser','--start-fullscreen','--kiosk','http://localhost:5000']) 
 
 def ExitApp():
-    os.system("pkill chromium")
-    os.system('python3 app.py')
     os.system('fuser -k 5000/tcp')
+
 
 def ShutdownApp():
     os.system("pkill chromium")
@@ -38,19 +40,44 @@ def ShutdownApp():
 
 #ปิดแอป
 @app.route('/close',methods=['GET'])
-def KULLSS():
+def KILL_WB():
     os.system("pkill chromium")
     msg = {}
     msg['msg'] = 'CLOSE' 
     ExitApp()
     return jsonify(msg),200
     
-@app.route('/stop',methods=['GET'])
-def STOPAPP():
+@app.route('/stop')
+def STOP_APP():
     os.system("pkill chromium")
     msg = {}
     msg['msg'] = 'STOP'
     return jsonify(msg),200
+
+@app.route('/update')
+def UPDATE_SERVER():
+    os.system("pkill chromium")
+    os.system("git clone https://github.com/bossware14/pi_wash.git")
+    SetUp()
+    msg = {}
+    msg['msg'] = 'SETUP PORT80'
+    return jsonify(msg),200
+
+@app.route('/setup')
+def SETUP_APP():
+    SetUp()
+    msg = {}
+    msg['msg'] = 'SETUP PORT80'
+    return jsonify(msg),200
+
+#เปิดหน้าใหม่
+@app.route('/start')
+def START_APP():
+    StartServer()
+    msg = {}
+    msg['msg'] = 'START'
+    return jsonify(msg),200
+
 
 # SET ตั้งค่าสายไฟ
 # https://youtu.be/W_kdEPdpt8Q
@@ -62,7 +89,7 @@ def DELAY_SWIFT(number,value):
   led_line = chip.get_line(LED_PIN)
   led_line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
   led_line.set_value(1)
-  time.sleep(.1)
+  time.sleep(0.1)
   led_line.set_value(0)
   led_line.release()
   chip.close()
@@ -425,6 +452,9 @@ def on_run_appp():
     msg['msg'] = "เปิดทั้งหมด"
     return jsonify(msg),200
 
-StartServer()
+os.system("pkill chromium")
+subprocess.Popen(['chromium-browser','--start-fullscreen','http://localhost']) 
+#subprocess.call('chromium-browser --start-fullscreen --kiosk http://localhost/', shell=True)
+#StartServer()
 if __name__ == '__main__':
-    socketio.run(app,host="0.0.0.0",port="5000", debug=False)
+    socketio.run(app,host="0.0.0.0",port="5000", debug=True)
