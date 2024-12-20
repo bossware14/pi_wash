@@ -11,7 +11,7 @@ import json
 from datetime import datetime, timezone, timedelta
 import socket
 
-#    pip install flask flask-socketio gpiod 
+#    pip install flask flask-socketio gpiod subprocess Flask-Cors
 #    pip install gunicorn
 # sudo chmod -R 777 /var/www/html
 # cp index.html /var/www/html
@@ -57,7 +57,7 @@ def STOP_APP():
 @app.route('/update')
 def UPDATE_SERVER():
     os.system("pkill chromium")
-    os.system("git clone https://github.com/bossware14/pi_wash.git")
+    os.system("git pull https://github.com/bossware14/pi_wash.git")
     SetUp()
     msg = {}
     msg['msg'] = 'SETUP PORT80'
