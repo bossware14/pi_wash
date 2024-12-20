@@ -2,8 +2,11 @@
 แอปเชื่อมต่อ PION ของ Raspberry Pi5
 
 # โหลดโปรเจค Git Clone
- git clone https://github.com/bossware14/pi_wash.git
+git clone https://github.com/bossware14/pi_wash.git
 
+cd pi_wash
+
+python3 app.py
 # เชคการอัพเดทล่าสุด
  git pull https://github.com/bossware14/pi_wash.git
  
