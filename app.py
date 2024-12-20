@@ -11,7 +11,7 @@ import json
 from datetime import datetime, timezone, timedelta
 import socket
 from gpiozero import LED
-from time import sleep
+#from time import sleep
 
 # sudo apt install python-setuptools python3-setuptools
 # sudo apt-get install pigpio 
@@ -27,9 +27,9 @@ CORS(app)
 def onstartled1(id):
  led = LED(int(id)
  led.on() 
- sleep(1)
+ time.sleep(1)
  led.off()
- sleep(1)
+ time.sleep(1)
  return "1"
     
 def SetUp():
