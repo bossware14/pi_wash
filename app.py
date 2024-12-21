@@ -10,53 +10,70 @@ import signal
 import json
 from datetime import datetime, timezone, timedelta
 import socket
-from gpiozero import LED
-#from time import sleep
+import uuid
 
+#autostart
+#sudo nano ~/.bashrc
+#sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
+#ps aux|grep python
+
+#deviceId = str(os.system("cat /sys/firmware/devicetree/base/serial-number")).replace("\n",'')
+deviceId = str(uuid.getnode())
+
+def GetSerial():
+    returned_output = uuid.getnode()#subprocess.call("cat /sys/firmware/devicetree/base/serial-number",shell=True)
+    return returned_output
+
+#print(uuid.getnode())
+# create a socket object
+#os.system("sudo service httpd stop")
 # sudo apt install python-setuptools python3-setuptools
 # sudo apt-get install pigpio 
 #    pip install flask flask-socketio gpiod subprocess flask-cors
 #    pip install gunicorn
 # sudo chmod -R 777 /var/www/html
 # cp index.html /var/www/html
-app = Flask(__name__,template_folder="./")
-app.config['SECRET_KEY'] = 'secret!'
+
+API_PORT = 5000
+DEBUG_MODE = False# โหมด ทดลอง  True|False
+app = Flask(__name__,template_folder="")
+app.config['SECRET_KEY'] = str(uuid.getnode())
 socketio = SocketIO(app,cors_allowed_origins="*")
 CORS(app)
 
-def onstartled1(id):
- try:
-  os.system('gpioset gpiochip4 `${int(number)`=1')
-  time.sleep(1)
-  os.system("gpioset gpiochip4 18=0")
-  return f"success"
- except:
-  return f"error"
+if os.path.isfile('cert.pem'):
+    print('ok ssl')
+else:
+    os.system('pip install pyopenssl')
+    print('create ssl')
+    create_ssl = os.system('openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365 -subj "/C=TH/ST=Thailand/L=Bangkok/O=All123TH/CN=app-wash.all123th.com"')
+    print(create_ssl)
+#os.system('gunicorn --certfile cert.pem --keyfile key.pem -b 0.0.0.0:'+str(API_PORT)+' hello:app')
 
-def onstartled2(id):
- led = LED(int(id))
- led.on() 
- time.sleep(1)
- led.off()
- time.sleep(1)
- return f"success"
- 
 def SetUp():
     os.system("sudo chmod -R 777 /var/www/html")
     os.system("cp index.html /var/www/html")
 
-
 def StartServer():
     os.system("pkill chromium")
-    subprocess.Popen(['chromium-browser','--start-fullscreen','--kiosk','http://localhost:5000']) 
+    url = 'http://superapp.all123th.com/'+str(json_data['serial-number'])
+    print(url)
+    url = 'http://'+str(get_ip())+':'+str(API_PORT)
+    print(url)
+
+    #os.shell("chromium-browser --start-fullscreen --kiosk "+url+"") 
+    #time.sleep(1)
+    #subprocess.call('clear',shell=True) 
+    subprocess.Popen(['chromium-browser','--start-fullscreen','--kiosk',url]) 
 
 def ExitApp():
-    os.system('fuser -k 5000/tcp')
-
+    cmd = 'fuser -k '+str(API_PORT)+'/tcp'
+    os.system(cmd)
 
 def ShutdownApp():
     os.system("pkill chromium")
-    os.system("fuser -k 5000/tcp")
+    cmd = 'fuser -k '+str(API_PORT)+'/tcp'
+    os.system(cmd)
 
 
 #ปิดแอป
@@ -89,10 +106,9 @@ def CMD_SERVER():
     url = request.args.get('code')
     if not url:
         return jsonify({"status": "error"}), 200
-    commond = os.system(url)
-    print(commond)
+    os.system(url)
     msg = {}
-    msg['msg'] = commond
+    msg['msg'] = 'CMD'
     return jsonify(msg),200
 
 @app.route('/setup')
@@ -116,12 +132,7 @@ def START_APP():
 #เปิดและปิด 0.1 วิ
 def DELAY_SWIFT(number,value):
  try:
-  os.system("gpioset gpiochip4 18=1")
-  time.sleep(1)
-  os.system("gpioset gpiochip4 18=0")
-  return f"success"
   LED_PIN = number
-  #return onstartled1(number)
   chip = gpiod.Chip('gpiochip4')
   led_line = chip.get_line(LED_PIN)
   led_line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
@@ -133,15 +144,9 @@ def DELAY_SWIFT(number,value):
   return f"success"
  except:
   return f"error"
-  
 #เปิด-ปิด 1วินาที
 def DELAY_ONE(number,value):
  try:
-  os.system("gpioset gpiochip4 18=1")
-  time.sleep(1)
-  os.system("gpioset gpiochip4 18=0")
-  return f"success"
-  #return onstartled1(number)
   LED_PIN = number#17 ขาจ่ายไฟ
   chip = gpiod.Chip('gpiochip4')
   led_line = chip.get_line(LED_PIN)
@@ -153,15 +158,12 @@ def DELAY_ONE(number,value):
   chip.close()
   return f"success"
  except:
-  #led_line.release()
-  #chip.close()
+  led_line.release()
+  chip.close()
   return f"error"
 #ปิด
 def DELAY_STOP(number):
  try:
-  os.system("gpioset gpiochip4 18=0")
-  return f"success"
-  # return onstartled1(number)
   LED_PIN = number
   chip = gpiod.Chip('gpiochip4')
   led_line = chip.get_line(LED_PIN)
@@ -171,31 +173,27 @@ def DELAY_STOP(number):
   chip.close()
   return f"success"
  except:
-  #led_line.release()
-  #chip.close()
   return f"error"
 #เปิดค้าง
 def DELAY_START(number):
  try:
-  os.system("gpioset gpiochip4 18=1")
-  return f"success"
-  #return onstartled1(number)
   LED_PIN = number
   chip = gpiod.Chip('gpiochip4')
   led_line = chip.get_line(LED_PIN)
   led_line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
   led_line.set_value(1)
-  led_line.release()
+  #led_line.release()
   chip.close()
   return f"success"
  except:
-  #led_line.release()
-  #chip.close()
+  led_line.release()
+  chip.close()
   return f"error"
 
 if os.path.isfile('data.json'):
     with open('data.json', 'r') as f:
       json_data = json.load(f)
+
 else:
     json_data = {
   "data": {
@@ -276,6 +274,7 @@ jsopn_price['temperature3'] = 0 #น้ำเย็น
 
 json_data['price'] = jsopn_price
 json_data['mode'] = jsopn_mode
+json_data['type'] = mode_wash
 
 @app.route('/')
 def index():
@@ -288,6 +287,10 @@ def favicon():
        filename = 'images.png'
     return send_file(filename, mimetype='image/png')
     #return render_template('images.png')
+
+@app.route('/ngrok')
+def NGrok():
+      subprocess.call("ngrok http http://localhost:"+str(API_PORT),shell=True)
 
 
 @socketio.event()
@@ -313,8 +316,11 @@ json_data['date'] = datetime.now(tz=tz).strftime('%Y-%m-%d %H:%M:%S')
 json_data['status'] = 'ONLINE'
 json_data['msg'] = 'พร้อมใช้งาน'
 json_data['ip'] = get_ip()
+json_data['port'] = API_PORT
 json_data['data']['time'] = datetime.now(tz=tz).strftime('%H:%M:%S')
-print(os.uname())
+#print(os.uname())
+json_data['serial-number'] = GetSerial()
+
 
 def update_data(json_data):
     json_data['id'] = socket.gethostname()
@@ -344,7 +350,7 @@ def update_data(json_data):
                 else:
                     TOSEC = TOSEC + int(SEC)
                     json_data['data']['runtime'] = str(HOUR)+':'+str(MIN)+':'+str(SEC)
-                    json_data['data']['runtime'] = datetime.fromtimestamp(TOSEC).strftime('%M:%S')
+                    json_data['data']['runtime'] = datetime.fromtimestamp(TOSEC).strftime('00:%M:%S')
                 if HOUR <= 0 and MIN <= 0 and SEC <= 0:
                     json_data['data']['TIMSEC'] = 0
                     json_data['data']['runtime'] = "00:00:00"
@@ -366,10 +372,11 @@ def update_data(json_data):
                     json_data['data']['monitor'] = "เครื่องกำลังปั่นผ้า"
                     json_data['data']['start'] = 1
                     json_data['msg'] = 'กำลังซัก'
-
                 with open('data.json', 'w') as f:
                     json.dump(json_data, f) 
                 return json_data
+    else:
+        json_data['data']['status'] = 'ONLINE'
 
     with open('data.json', 'w') as f:
         json.dump(json_data, f) 
@@ -383,6 +390,9 @@ def get_api():
 def handleMessage(msg):
     print(msg)
     if msg == 'connect':
+        json_data['data']['status'] = 'ONLINE'
+        json_data['data']['msg'] = 'พร้อมใช้งาน'
+
         return send(update_data(json_data), broadcast=True)
     else:
        res = json.loads(msg)
@@ -411,7 +421,13 @@ def handleMessage(msg):
               json_data['data']['price'] = jsopn_price[res["value"]]+jsopn_price[json_data['data']['modewash']]
           
           update = timezone(timedelta(hours=7,minutes=int(json_data['data']['action'])))
-          json_data['data']['minute'] = '00:'+str(json_data['data']['action'])+':00'
+          getTime = json_data['data']['action']
+          if getTime < 10:
+             getTime = '0'+str(getTime)
+          else:
+             getTime = str(getTime)
+
+          json_data['data']['minute'] = '00:'+getTime+':00'
           DELAY_SWIFT(pion['timeout'],str(json_data['data']['action']))
 
           with open('data.json', 'w') as f:
@@ -443,6 +459,7 @@ def handleMessage(msg):
           DELAY_SWIFT(pion['start'],'start')
           DELAY_START(pion['led'])
           #DELAY_START(pion['on'])
+          json_data['data']['id'] = 'WH'+str(datetime.now(tz=tz).strftime('%m%d%H%M'));
           update = timezone(timedelta(hours=7,minutes=mins))
           json_data['data']['update'] = datetime.now(tz=tz).strftime('%Y-%m-%d %H:%M:%S')
           json_data['data']['time'] = datetime.now(tz=tz).strftime('%H:%M:%S')
@@ -505,44 +522,33 @@ def on_run_appp():
     msg['status'] = "success"
     msg['msg'] = "เปิดทั้งหมด"
     return jsonify(msg),200
-    
 #เปิดทั่งหมด
 @app.route('/led',methods=['GET'])
 def on_led_app():
     url = request.args.get('id')
     if not url:
         return jsonify({"status": "error"}), 200
-    onstartled1(int(url))
-    msg = {}
-    msg['status'] = "success"
-    msg['msg'] = url
-    return jsonify(msg),200
-
-#เปิดทั่ง
-@app.route('/le',methods=['GET'])
-def on_led_app2():
-    url = request.args.get('id')
-    if not url:
-        return jsonify({"status": "error"}), 200
-    LED_PIN = int(url)
-    chip = gpiod.Chip('gpiochip4')
-    led_line = chip.get_line(LED_PIN)
-    led_line.request(consumer="LED", type=gpiod.LINE_REQ_DIR_OUT)
-    led_line.set_value(1)
-    time.sleep(1)
-    led_line.set_value(0)
-    led_line.release()
-    chip.close()
+    DELAY_ONE(int(url),url)
     msg = {}
     msg['status'] = "success"
     msg['msg'] = url
     return jsonify(msg),200
 
 
-#SetUp()
-#os.system("pkill chromium")
+SetUp()
+ 
+def UpdateOnline(app,data):
+    headers = {"Content-Type": "application/json"}
+    url = str("https://app-wash.all123th.com/api/")+str(app)
+    requests.put(url, data=json.dumps(data), headers=headers)
+#os.system("n openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365 ")
 #subprocess.Popen(['chromium-browser','--start-fullscreen','http://localhost:5000']) 
 #subprocess.call('chromium-browser --start-fullscreen --kiosk http://localhost/', shell=True)
 #StartServer()
-if __name__ == '__main__':
-    socketio.run(app,host="0.0.0.0",port="5000", debug=True)
+# ทำงาน
+#SSL
+#pip install pyopenssl
+UpdateOnline(json_data['serial-number'],json_data)
+if __name__ == '__main__': 
+    socketio.run(app,host="0.0.0.0",port=API_PORT, debug=True)
+    #socketio.run(app,host="0.0.0.0",port=API_PORT, debug=DEBUG_MODE,ssl_context=('cert.pem', 'key.pem'))
