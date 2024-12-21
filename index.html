@@ -160,6 +160,7 @@ if (window.location.protocol !== "https:" && window.location.hostname !== "local
 
 <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
 <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+</head>
 <script>
 $('#AppStart').attr('disabled',true);
 $('#AppStop').attr('disabled',true); 
@@ -322,7 +323,6 @@ function input_dis(str){
     //$('button').attr('disabled',str);
 }
 </script>
-</head>
 <script>
     var elem = document.documentElement;
     function openFullscreen() {
@@ -347,6 +347,9 @@ function input_dis(str){
             openFullscreen()
         }, 10);
     }
+
+
+
 </script>
 <body onclick="AutoFull()">
     <template id="tab1.html">
@@ -438,10 +441,17 @@ function input_dis(str){
                 </ons-row>
             </ons-card>
 <script>
-input_dis(true);
+ input_dis(true);
  $('#AppStart').attr('disabled',true);
  $('#AppStop').attr('disabled',true);
- CheckData();
+
+            var socket = io.connect(window.location.hostname+':5000');
+            socket.on('connect', function() {
+                socket.send('connect'); 
+                console.log('connect')
+            });
+
+
 </script>
         </ons-page>
     </template>
@@ -971,6 +981,28 @@ intro_ccoud.currentTime = 0;
 intro_ccoud.play();
 
     }
+
+    function zeroFill(n){
+        return ('0' + n).slice(-2);
+    }
+
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i
+        };
+        return i;
+    }
+
+    const interval = setInterval(() => {
+        if(!$('TIMESERVER')){
+            return false;
+        }
+        const now = new Date();
+        const runDate = now.getFullYear()+ '-'+zeroFill(now.getMonth()+1) + '-' + zeroFill(now.getDate());
+        const runTime = zeroFill(now.getHours()) + ':' + zeroFill(now.getMinutes()) + ':' + zeroFill(now.getSeconds());
+        const LOADID = runTime.replace(':', '').replace(':', '').replace(':', '');
+        document.getElementById('TIMESERVER').innerHTML = runTime;
+    }, 1000);
 
   </script>
 </body>
