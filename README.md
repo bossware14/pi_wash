@@ -24,3 +24,6 @@ python3 app.py
 
 # Server
 port 5000
+
+# ศึกษา
+https://595162020009.wixsite.com/iot-edu/chapter06
