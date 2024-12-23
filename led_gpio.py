@@ -19,7 +19,8 @@ def LED_API(LINE,TYPE,SEC=1):
     if TYPE == 'loop' and SEC > 0:
        print("ON LOOP")
        led.blink(SEC,SEC,None,True)
-    if TYLE = 'loop' and SEC == 0 :
+      
+    if TYPE = 'loop' and SEC == 0 :
        print("ON LOOP SLEEP")
        led.blink(0.1,0.1,None,True)
   finally:
