@@ -3,14 +3,18 @@ from flask_socketio import SocketIO, emit, send
 from flask_cors import CORS, cross_origin
 import requests
 import time
+from time import sleep
 import gpiod
 import subprocess
 import os
-import signal
 import json
 from datetime import datetime, timezone, timedelta
 import socket
 import uuid
+
+from gpiozero import MotionSensor , AngularServo , LED
+from signal import pause
+
 
 #autostart
 #sudo nano ~/.bashrc
@@ -20,9 +24,54 @@ import uuid
 #deviceId = str(os.system("cat /sys/firmware/devicetree/base/serial-number")).replace("\n",'')
 deviceId = str(uuid.getnode())
 
+#BTN_START = 0
+
+#ฟังชั่นเริ่มทำงาน
+def START_MATCHINE():
+    BTN_START = 1
+    LED_API(pion['led'],'loop',1)
+
+def STOP_MATCHINE():
+    BTN_START = 0
+    LED_API(pion['led'],'off',1)
+
 def GetSerial():
     returned_output = uuid.getnode()#subprocess.call("cat /sys/firmware/devicetree/base/serial-number",shell=True)
     return returned_output
+
+def LED_API(LINE,TYPE,SEC=1):
+  try:
+    led = LED(LINE)
+    if SEC == 0 and TYPE == 'on':
+       print("SEC เปิดค้าง")
+       led.on()
+      # pause()
+    if TYPE == 'on' and SEC > 0:
+       print("ON OFF")
+       led.on()
+       sleep(SEC)
+
+    if TYPE == 'loop' :
+        while True:
+          with open('data.json', 'r') as f:
+            json_data = json.load(f)
+          if json_data['data']['start'] == 0:
+            print("หยุด")
+            return f"success"
+          led.on()
+          sleep(1)
+          led.off()
+          sleep(1)
+  finally:
+    if SEC == 0 :
+       print("SEC 0  END")
+       return f"success"
+    if TYPE == 'loop':
+       print("LOOP END")
+       return  f"success"
+    led.off()
+    print("จบฟังชั้น")
+    return f"success"
 
 #print(uuid.getnode())
 # create a socket object
@@ -48,7 +97,6 @@ else:
     print('create ssl')
     create_ssl = os.system('openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365 -subj "/C=TH/ST=Thailand/L=Bangkok/O=All123TH/CN=app-wash.all123th.com"')
     print(create_ssl)
-#os.system('gunicorn --certfile cert.pem --keyfile key.pem -b 0.0.0.0:'+str(API_PORT)+' hello:app')
 
 def SetUp():
     os.system("sudo chmod -R 777 /var/www/html")
@@ -56,14 +104,10 @@ def SetUp():
 
 def StartServer():
     os.system("pkill chromium")
-    url = 'http://superapp.all123th.com/'+str(json_data['serial-number'])
+    url = 'http://superapp.all123th.com/'
     print(url)
     url = 'http://'+str(get_ip())+':'+str(API_PORT)
     print(url)
-
-    #os.shell("chromium-browser --start-fullscreen --kiosk "+url+"") 
-    #time.sleep(1)
-    #subprocess.call('clear',shell=True) 
     subprocess.Popen(['chromium-browser','--start-fullscreen','--kiosk',url]) 
 
 def ExitApp():
@@ -84,7 +128,7 @@ def KILL_WB():
     msg['msg'] = 'CLOSE' 
     ExitApp()
     return jsonify(msg),200
-    
+
 @app.route('/stop')
 def STOP_APP():
     os.system("pkill chromium")
@@ -96,9 +140,10 @@ def STOP_APP():
 def UPDATE_SERVER():
     os.system("pkill chromium")
     os.system("git pull https://github.com/bossware14/pi_wash.git")
-    SetUp()
     msg = {}
-    msg['msg'] = 'SETUP PORT80'
+    msg['msg'] = 'UPDATE GIT'
+    cmd = 'fuser -k '+str(API_PORT)+'/tcp'
+    os.system(cmd)
     return jsonify(msg),200
 
 @app.route('/cmd')
@@ -238,13 +283,12 @@ else:
 #ขาวงจร
 pion = {}
 pion['led']         = 27 #ไฟแสดง การทำงานของเครื่อง (ไฟโชว)
-pion['start']       = 17 #delay เริ่มทำงาน
-pion['stop']        = 18 #delay หยุดปั่น
+pion['start']       = 18 #delay เริ่มทำงาน
+pion['stop']        = 17 #delay หยุดปั่น
 pion['modewash']    = 22 #delay ตั้งค่าการปั่น 1-4
 pion['temperature'] = 23 #delay ตั้งค่าอุณภูมิ 1-3
 pion['timeout']     = 24 #delay ตั้งค่าเวลา
 pion['on']          = 7 #delay 
-
 
 #ตั้งค่า MODE นาที
 jsopn_mode = {}
@@ -363,8 +407,6 @@ def update_data(json_data):
                     json_data['data']['start'] = 0
                     json_data['data']['action'] = 0
                     json_data['data']['persen'] = 100
-                    DELAY_SWIFT(pion['stop'],'ok')
-                    DELAY_STOP(pion['led'])
                 else:
                     json_data['data']['persen'] = 100-TOSEC*100/int(json_data['data']['sec'])
                     json_data['data']['TIMSEC'] = TOSEC
@@ -410,26 +452,23 @@ def handleMessage(msg):
           json_data['data']['update'] = datetime.now(tz=tz).strftime('%Y-%m-%d %H:%M:%S')
           json_data['data']['monitor'] = 'พร้อมทำงาน'
           if res["key"] == 'modewash':
-              DELAY_SWIFT(pion['modewash'],res["value"])
+              LED_API(pion['modewash'],'on',0.2)
               json_data['data']['monitor'] = mode_wash[res["value"]]
               json_data['data']['action'] = jsopn_mode[res["value"]]
               json_data['data']['price'] = jsopn_price[res["value"]]+jsopn_price[json_data['data']['temperature']]
           if res["key"] == 'temperature':
-              DELAY_SWIFT(pion['temperature'],res["value"])
+              LED_API(pion['temperature'],'on',0.2)
               json_data['data']['monitor'] = mode_wash[res["value"]]
               json_data['data']['action'] = jsopn_mode[json_data['data']['modewash']]
               json_data['data']['price'] = jsopn_price[res["value"]]+jsopn_price[json_data['data']['modewash']]
-          
+
           update = timezone(timedelta(hours=7,minutes=int(json_data['data']['action'])))
           getTime = json_data['data']['action']
           if getTime < 10:
              getTime = '0'+str(getTime)
           else:
              getTime = str(getTime)
-
           json_data['data']['minute'] = '00:'+getTime+':00'
-          DELAY_SWIFT(pion['timeout'],str(json_data['data']['action']))
-
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
           return send(json_data, broadcast=True)
@@ -446,19 +485,13 @@ def handleMessage(msg):
           json_data['data']['monitor'] = 'เสร็จแล้ว'
           json_data['data']['msg'] = 'สิ้นสุดการทำงาน'
           json_data['data']['update'] = datetime.now(tz=tz).strftime('%Y-%m-%d %H:%M:%S')
-          DELAY_SWIFT(pion['stop'],'stop')
-          #DELAY_STOP(pion['on'])
-          DELAY_STOP(pion['led'])
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
+          STOP_MATCHINE()
           return send(json_data, broadcast=True)
-          #return send('สิ้นสุดการทำงาน', broadcast=True)
 
        if res["status"] == 'start':
           mins = int(jsopn_mode[json_data['data']['modewash']])
-          DELAY_SWIFT(pion['start'],'start')
-          DELAY_START(pion['led'])
-          #DELAY_START(pion['on'])
           json_data['data']['id'] = 'WH'+str(datetime.now(tz=tz).strftime('%m%d%H%M'));
           update = timezone(timedelta(hours=7,minutes=mins))
           json_data['data']['update'] = datetime.now(tz=tz).strftime('%Y-%m-%d %H:%M:%S')
@@ -472,12 +505,11 @@ def handleMessage(msg):
           json_data['data']['status'] = 'START'
           json_data['data']['monitor'] = 'เริ่มซักผ้า'
           json_data['data']['msg'] = 'เริ่มต้นการทำงาน'
-
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
-          #return send('เริ่มต้นการทำงาน', broadcast=True)
+          START_MATCHINE()
        return send(json_data, broadcast=True)
-        
+
 @socketio.on_error()        # Handles the default namespace
 def error_handler(e):
     print(f'An error occurred: {e}')
@@ -548,6 +580,7 @@ def UpdateOnline(app,data):
 # ทำงาน
 #SSL
 #pip install pyopenssl
+
 UpdateOnline(json_data['serial-number'],json_data)
 if __name__ == '__main__': 
     socketio.run(app,host="0.0.0.0",port=API_PORT, debug=True)
