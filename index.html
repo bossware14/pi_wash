@@ -20,9 +20,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=K2D:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
-<style>
+    <style>
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Doto:wght@100..900&family=Silkscreen:wght@400;700&family=VT323&display=swap');
-</style>
+    </style>
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -34,294 +34,308 @@
     <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
     <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
     <style>
-*{
+        * {
             font-family: "K2D", serif;
             font-weight: 400;
             font-style: normal;
             cursor: none !important;
+        }
+
+.alert-dialog{
+    width:80% !important;
+   max-width: 500px;
 }
+        .doto {
+            font-family: "Doto", serif !important;
+            font-weight: 700 !important;
+            font-style: normal !important;
+        }
 
-.doto {
-  font-family: "Doto", serif !important;
-  font-weight: 700 !important;
-  font-style: normal !important;
-}
+        .chakra-petch-light {
+            font-family: "Chakra Petch", serif;
+            font-weight: 300;
+            font-style: normal;
+        }
 
-.chakra-petch-light {
-  font-family: "Chakra Petch", serif;
-  font-weight: 300;
-  font-style: normal;
-}
+        .chakra-petch-regular {
+            font-family: "Chakra Petch", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
 
-.chakra-petch-regular {
-  font-family: "Chakra Petch", serif;
-  font-weight: 400;
-  font-style: normal;
-}
+        .chakra-petch-medium {
+            font-family: "Chakra Petch", serif;
+            font-weight: 500;
+            font-style: normal;
+        }
 
-.chakra-petch-medium {
-  font-family: "Chakra Petch", serif;
-  font-weight: 500;
-  font-style: normal;
-}
+        .chakra-petch-semibold {
+            font-family: "Chakra Petch", serif;
+            font-weight: 600;
+            font-style: normal;
+        }
 
-.chakra-petch-semibold {
-  font-family: "Chakra Petch", serif;
-  font-weight: 600;
-  font-style: normal;
-}
+        .chakra-petch-bold {
+            font-family: "Chakra Petch", serif;
+            font-weight: 700;
+            font-style: normal;
+        }
 
-.chakra-petch-bold {
-  font-family: "Chakra Petch", serif;
-  font-weight: 700;
-  font-style: normal;
-}
+        .chakra-petch-light-italic {
+            font-family: "Chakra Petch", serif;
+            font-weight: 300;
+            font-style: italic;
+        }
 
-.chakra-petch-light-italic {
-  font-family: "Chakra Petch", serif;
-  font-weight: 300;
-  font-style: italic;
-}
+        .chakra-petch-regular-italic {
+            font-family: "Chakra Petch", serif;
+            font-weight: 400;
+            font-style: italic;
+        }
 
-.chakra-petch-regular-italic {
-  font-family: "Chakra Petch", serif;
-  font-weight: 400;
-  font-style: italic;
-}
+        .chakra-petch-medium-italic {
+            font-family: "Chakra Petch", serif;
+            font-weight: 500;
+            font-style: italic;
+        }
 
-.chakra-petch-medium-italic {
-  font-family: "Chakra Petch", serif;
-  font-weight: 500;
-  font-style: italic;
-}
+        .chakra-petch-semibold-italic {
+            font-family: "Chakra Petch", serif;
+            font-weight: 600;
+            font-style: italic;
+        }
 
-.chakra-petch-semibold-italic {
-  font-family: "Chakra Petch", serif;
-  font-weight: 600;
-  font-style: italic;
-}
-
-.chakra-petch-bold-italic {
-  font-family: "Chakra Petch", serif;
-  font-weight: 700;
-  font-style: italic;
-}
+        .chakra-petch-bold-italic {
+            font-family: "Chakra Petch", serif;
+            font-weight: 700;
+            font-style: italic;
+        }
 
 
-.silkscreen-regular {
-  font-family: "Silkscreen", serif;
-  font-weight: 400 !important;
-  font-style: normal !important;
-}
+        .silkscreen-regular {
+            font-family: "Silkscreen", serif;
+            font-weight: 400 !important;
+            font-style: normal !important;
+        }
 
-.silkscreen-bold {
-  font-family: "Silkscreen", serif;
-  font-weight: 700 !important;
-  font-style: normal !important;
-}
+        .silkscreen-bold {
+            font-family: "Silkscreen", serif;
+            font-weight: 700 !important;
+            font-style: normal !important;
+        }
 
-#Price {
-  font-family: "VT323", serif;
-  font-weight: 400;
-  font-style: normal;
-}
+        #Price {
+            font-family: "VT323", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
 
-#Tab2 {
- font-family: "Chakra Petch", serif;
-  font-weight: 800;
-  font-style: normal;
-}
+        #Tab2 {
+            font-family: "Chakra Petch", serif;
+            font-weight: 800;
+            font-style: normal;
+        }
 
-:active{
+:active {
             cursor: none !important;
-        } 
-:hover{
+        }
+:hover {
             cursor: none !important;
-}
+        }
 
-.page__content
-{
-  background: linear-gradient( 
-    155deg  ,
-    white 0%,
-    white 65%, 
-    paleturquoise 65%,
-    paleturquoise 100% 
-  ) !important;
-}
+        .page__content
+        {
+            background: linear-gradient(
+            155deg  ,
+            white 0%,
+            white 65%,
+            paleturquoise 65%,
+            paleturquoise 100%
+            ) !important;
+        }
 
-</style>
-<script language="javascript" type="text/javascript">
-if (window.location.protocol !== "https:" && window.location.hostname !== "localhost")
-{
- //window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
-}
-</script>
+    </style>
+    <script language="javascript" type="text/javascript">
+        if (window.location.protocol !== "https:" && window.location.hostname !== "localhost") {
+            //window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+        }
+    </script>
 
-<script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
-<script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 </head>
 <script>
-$('#AppStart').attr('disabled',true);
-$('#AppStop').attr('disabled',true); 
-var onclick = 1;
-var OnOk = 0;
-var RUNTIME = setInterval(() => {
-}, 1000);
-        var socket = io.connect(window.location.hostname+':5000');
-        document.addEventListener('DOMContentLoaded', (event) => {
-            socket.on('connect', function() {
-                socket.send('connect'); 
-                console.log('connect')
-            });
-            console.log('event',event)
-            socket.on('message', function(str) {
-                $('#STATUS_LED').val(str.data.monitor)
-                if(str.status == 'error'){
-                    $('#STATUS').css('background','#0066cc');
-                }else{
-                    $('#STATUS').css('background','#00cc66');
-                }
-                MODED = str.mode;
-                MODE_TYPE = str.type;
-                MODED_PRICE = str.price;
-                $('#STATUS').html(str.data.status);
-                $('#wash_status').html(str.data.msg);
-                $('#name').html(str.data.name);
-                $('#timeout').html(str.data.timeout);
-                $('#monitor').val(str.data.monitor);
-                $('#modewash').val(str.data.modewash);
-                $('#temperature').val(str.data.temperature);
-                $('#'+str.data.modewash).attr('checked',true);
-                $('#'+str.data.temperature).attr('checked',true);
-                $('#RUNTIME').html(str.data.runtime);
-                $('#TIMESERVER').html(str.data.time);
-                $('#status_mode').html(MODE_TYPE[str.data.modewash]);
-                $('#status_id').html(str.data.id);
-
-                $('#amount').html(str.data.price);
-                $('#status_time').html(str.data.minute);
-                $('#status_mode').html(MODE_TYPE[str.data.modewash]);
-                $('#statustemp').html(MODE_TYPE[str.data.temperature]);
-                $('#persen').attr('style','height:20px;width:'+str.data.persen+'%');
-                if(str.data.start == 0){
-                    $('.modewash').attr('disabled',false);
-                    $('.temperature').attr('disabled',false);
-                    $('#AppStop').attr('disabled',true);
-                    $('#AppStart').attr('disabled',false);
-                    $('#AppStart').show();
-                    $('#AppStop').hide();
-                    clearInterval(RUNTIME);
-                    if(OnOk == 1){
-                        OnOk = 0;
-                        showTemplateDialog(str.data.monitor);
-                    };
-                    input_dis(false);
-                }else{
-                    $('.modewash').attr('disabled',true);
-                    $('.temperature').attr('disabled',true);
-                    $('#AppStop').attr('disabled',false);
-                    $('#AppStart').attr('disabled',true);
-                    $('#AppStart').hide();
-                    $('#AppStop').show();
-                    onclick = 2;
-                    input_dis(true);
-                }
-            });
+    $('#AppStart').attr('disabled', true);
+    $('#AppStop').attr('disabled', true);
+    var onclick = 1;
+    var OnOk = 0;
+    var RUNTIME = setInterval(() => {}, 1000);
+    var socket = io.connect(window.location.hostname+':5000');
+    document.addEventListener('DOMContentLoaded', (event) => {
+        socket.on('connect', function() {
+                $('#STATUS_LED').removeClass('bg-blue');
+                $('#STATUS_LED').addClass('bg-red');
+            socket.send('connect');
+            console.log('connect')
         });
+        console.log('event', event)
+        socket.on('message', function(str) {
+            $('#STATUS_LED').val(str.data.monitor)
+            if (str.status == 'error') {
+                $('#STATUS').css('background', '#0066cc');
+            } else {
+                $('#STATUS').css('background', '#00cc66');
+            }
+            MODED = str.mode;
+            MODE_TYPE = str.type;
+            MODED_PRICE = str.price;
+            $('#STATUS').html(str.data.status);
+            $('#wash_status').html(str.data.msg);
+            $('#name').html(str.data.name);
+            $('#timeout').html(str.data.timeout);
+            $('#monitor').val(str.data.monitor);
+            $('#modewash').val(str.data.modewash);
+            $('#temperature').val(str.data.temperature);
+            $('#'+str.data.modewash).attr('checked', true);
+            $('#'+str.data.temperature).attr('checked', true);
+            $('#RUNTIME').html(str.data.runtime);
+            $('#TIMESERVER').html(str.data.time);
+            $('#status_mode').html(MODE_TYPE[str.data.modewash]);
+            $('#status_id').html(str.data.id);
 
-function res_id(id,str){
-   document.getElementById(id).innerHTML = str;
-}
-function Error(err){
-if(err == 'xhr poll error'){
-    $('#STATUS').html('ขาดการเชื่อมต่อ');
-    $('#wash_status').html('Connecting...')
-    $('#STATUS').css('background','#ff5050');
-input_dis(true);
- $('#AppStart').attr('disabled',true);
- $('#AppStop').attr('disabled',true);
-}
-    console.log(err)
-}
-function CheckData(){
-    if(onclick == 2){
-        return false;
+            $('#amount').html(str.data.price);
+            $('#status_time').html(str.data.minute);
+            $('#status_mode').html(MODE_TYPE[str.data.modewash]);
+            $('#statustemp').html(MODE_TYPE[str.data.temperature]);
+            $('#persen').attr('style', 'height:20px;width:'+str.data.persen+'%');
+            if (str.data.start == 0) {
+                $('.modewash').attr('disabled', false);
+                $('.temperature').attr('disabled', false);
+                $('#AppStop').attr('disabled', true);
+                $('#AppStart').attr('disabled', false);
+                $('#AppStart').show();
+                $('#AppStop').hide();
+                $('#RUNTIME').html(str.data.minute);
+                clearInterval(RUNTIME);
+                if (OnOk == 1) {
+                    OnOk = 0;
+                    showTemplateDialog(str.data.monitor);
+                };
+                $('#videoPlayer').show();
+                $('#wash_spin').hide();
+                input_dis(false);
+
+                $('#STATUS_LED').removeClass('bg-red');
+                $('#STATUS_LED').addClass('bg-blue');
+            } else {
+                $('#STATUS_LED').removeClass('bg-blue');
+                $('#STATUS_LED').addClass('bg-red');
+
+                $('.modewash').attr('disabled', true);
+                $('.temperature').attr('disabled', true);
+                $('#AppStop').attr('disabled', false);
+                $('#AppStart').attr('disabled', true);
+                $('#AppStart').hide();
+                $('#AppStop').show();
+                onclick = 2;
+                input_dis(true);
+            }
+        });
+    });
+
+    function res_id(id, str) {
+        document.getElementById(id).innerHTML = str;
     }
-    console.log('check')
-    onclick = 2;
-    var data = {}
-    data.status = 'message';
-    data.key = 'start';
-    data.value = 1;
-    socket.send(JSON.stringify(data));
-}
-
-function modewash(no){
-    if(onclick == 2){
-        return false;
+    function Error(err) {
+        if (err == 'xhr poll error') {
+            $('#STATUS').html('ขาดการเชื่อมต่อ');
+            $('#wash_status').html('Connecting...')
+            $('#STATUS').css('background', '#ff5050');
+            input_dis(true);
+            $('#AppStart').attr('disabled', true);
+            $('#AppStop').attr('disabled', true);
+        }
+        console.log(err)
     }
-    console.log('mode')
-    onclick = 2;
-var data = {} 
-data.status = 'update';
-data.key = 'modewash';
-data.value = 'modewash'+no;
-socket.send(JSON.stringify(data));
-}
-
-function temperature(no){
-    if(onclick == 2){
-        return false;
-    }
-    onclick = 2;
-    console.log(no)
-var data = {} 
-data.status = 'update';
-data.key = 'temperature';
-data.value = 'temperature'+no;
-socket.send(JSON.stringify(data));
-}
-
-function AppStop(){
-    if(onclick == 2){
-        return false;
+    function CheckData() {
+        if (onclick == 2) {
+            return false;
+        }
+        console.log('check')
+        onclick = 2;
+        var data = {}
+        data.status = 'message';
+        data.key = 'start';
+        data.value = 1;
+        socket.send(JSON.stringify(data));
     }
 
-    $('#videoPlayer').show();
-    $('#wash_spin').hide();
-    OnOk = 2;
-    onclick = 2;
-    console.log('stop')
-var data = {} 
-data.status = 'stop';
-data.key = 'start';
-data.value = 0;
-socket.send(JSON.stringify(data));
-clearInterval(RUNTIME)
-}
-
-function AppStart(){
-    if(onclick == 2){
-        return false;
+    function modewash(no) {
+        if (onclick == 2) {
+            return false;
+        }
+        console.log('mode')
+        onclick = 2;
+        var data = {}
+        data.status = 'update';
+        data.key = 'modewash';
+        data.value = 'modewash'+no;
+        socket.send(JSON.stringify(data));
     }
-    OnOk = 1;
-    $('#videoPlayer').hide();
-    $('#wash_spin').show();
-    console.log('start')
-    onclick = 2;
-    var data = {} 
-    data.status = 'start';
-    data.key = 'timeout';
-    data.value = 10;
-    socket.send(JSON.stringify(data));
-    RUNTIME = setInterval(function(){CheckData(); }, 1000);
-}
 
-function input_dis(str){
-    $('input').attr('disabled',str);
-    //$('button').attr('disabled',str);
-}
+    function temperature(no) {
+        if (onclick == 2) {
+            return false;
+        }
+        onclick = 2;
+        console.log(no)
+        var data = {}
+        data.status = 'update';
+        data.key = 'temperature';
+        data.value = 'temperature'+no;
+        socket.send(JSON.stringify(data));
+    }
+
+    function AppStop() {
+        if (onclick == 2) {
+            return false;
+        }
+        $('#videoPlayer').show();
+        $('#wash_spin').hide();
+        OnOk = 2;
+        onclick = 2;
+        console.log('stop')
+        var data = {}
+        data.status = 'stop';
+        data.key = 'start';
+        data.value = 0;
+        socket.send(JSON.stringify(data));
+        clearInterval(RUNTIME)
+    }
+
+    function AppStart() {
+        if (onclick == 2) {
+            return false;
+        }
+        OnOk = 1;
+        $('#videoPlayer').hide();
+        $('#wash_spin').show();
+        console.log('start')
+        onclick = 2;
+        var data = {}
+        data.status = 'start';
+        data.key = 'timeout';
+        data.value = 10;
+        socket.send(JSON.stringify(data));
+        RUNTIME = setInterval(function() {
+            CheckData();
+        }, 1000);
+    }
+
+    function input_dis(str) {
+        $('input').attr('disabled', str);
+        //$('button').attr('disabled',str);
+    }
 </script>
 <script>
     var elem = document.documentElement;
@@ -343,7 +357,7 @@ function input_dis(str){
         }
         full = 0;
         setTimeout(function() {
-           Coud();
+            Coud();
             openFullscreen()
         }, 10);
     }
@@ -358,48 +372,50 @@ function input_dis(str){
                 <ons-row>
                     <ons-col>
                         <div style="padding:5px;">
-                            
+
                             <div class="row" style="text-align:left;margin-bottom:5px;">
-<div class="col-6 small">สถาณะ
-</div>
-<div class="col-6 small text-end"> 
-<small id="TIMESERVER">00:00:00</small>
-</div>
+                                <div class="col-6 small">
+                                    สถาณะ
+                                </div>
+                                <div class="col-6 small text-end">
+                                    <small id="TIMESERVER">00:00:00</small>
+                                </div>
                             </div>
-<div class="d-flex w-100">
- <div> 
-<b class="badge text-indigo-fg ps-3 pe-3"  id="STATUS">LOADING</b>
-</div>
+                            <div class="d-flex w-100">
+                                <div>
+                                    <b class="badge text-indigo-fg ps-3 pe-3" id="STATUS">LOADING</b>
+                                </div>
                                 <div class="ms-auto">
                                     <span class="badge bg-indigo text-indigo-fg" id="RUNTIME">00:00:00</span>
                                 </div>
                             </div>
 
-                           <div class="w-100 text-center" style="position:relative;z-index:1;margin-top:-25px;font-size:12px;"  id="wash_status">Status</div> 
+                            <div class="w-100 text-center" style="position:relative;z-index:1;margin-top:-25px;font-size:12px;" id="wash_status">
+                                Status
+                            </div>
                             <div class="progress mt-2 mb-3" style="height:20px; text-align:center">
                                 <div class="progress-bar bg-primary" id="persen" style="width:100%;height:20px;" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                                 </div>
                             </div>
 
-<ons-card class="text-center p-0 pb-0 mb-0 m-0">
-<div id="wash_spin" style="display:none">
-    <img height="188px" src="https://cdnl.iconscout.com/lottie/premium/thumb/washing-machine-animation-download-in-lottie-json-gif-static-svg-file-formats--laundry-real-state-pack-appliances-animations-4647157.gif">
-</div>
-<div id="videoPlayer">
-    <video width="100%" loop="loop" autoplay="autoplay" muted="muted" playsinline="" style="border-radius:2px;">
-    <source src="https://washclub.honey.co.th/images/vdo1.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-    </video>
-</div>
-</ons-card>
+                            <ons-card class="text-center p-0 pb-0 mb-0 m-0">
+                                <div id="wash_spin" style="display:none">
+                                    <img height="188px" src="https://cdnl.iconscout.com/lottie/premium/thumb/washing-machine-animation-download-in-lottie-json-gif-static-svg-file-formats--laundry-real-state-pack-appliances-animations-4647157.gif">
+                                </div>
+                                <div id="videoPlayer">
+                                    <video width="100%" loop="loop" autoplay="autoplay" muted="muted" playsinline="" style="border-radius:2px;">
+                                        <source src="https://washclub.honey.co.th/images/vdo1.mp4" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            </ons-card>
                         </div>
                     </ons-col>
 
                     <ons-col>
 
                         <div style="padding:5px;">
-                            <input id="STATUS_LED" class="form-control text-center bg-blue text-light" readonly="" value="เลือกโหมดการซัก">
-
+                            <input id="STATUS_LED" class="form-control text-center text-light" readonly="" value="เลือกโหมดการซัก">
                         </div>
                         <div class="mt-2 row" style="padding:5px;">
                             <div class="col-6">
@@ -425,7 +441,7 @@ function input_dis(str){
                             <label class="small" style="font-weight:400;margin-bottom:5px;">อุณหภูมิ น้ำ</label>
                             <br>
                             <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check temperature"  onclick="input_dis(true);temperature(1);$('#temperature').val('temperature1');$(this).attr('disabled',true);" name="temperature" id="temperature1">
+                                <input type="radio" class="btn-check temperature" onclick="input_dis(true);temperature(1);$('#temperature').val('temperature1');$(this).attr('disabled',true);" name="temperature" id="temperature1">
                                 <label class="btn btn-outline-primary" for="temperature1">ปกติ</label>
                                 <input type="radio" class="btn-check temperature" onclick="input_dis(true);temperature(2);$('#temperature').val('temperature2');$(this).attr('disabled',true);" name="temperature" id="temperature2">
                                 <label class="btn btn-outline-primary" for="temperature2">น้ำอุ่น</label>
@@ -434,25 +450,26 @@ function input_dis(str){
                                 <input id="temperature" type="hidden" value="">
                             </div>
                             <div class="btn-group w-100" role="group">
-                                    <button onclick="input_dis(true);AppStop();$('.modewash').attr('disabled',false);$('.temperature').attr('disabled',false);$(this).attr('disabled',true);"  id="AppStop" style="font-size:20px" class="w-100 mt-3 btn btn-outline-danger">สิ้นสุด</button>
-                                    <button onclick="input_dis(true);AppStart();$('.modewash').attr('disabled',true);$('.temperature').attr('disabled',true);$(this).attr('disabled',true);"  id="AppStart" style="font-size:20px" class="w-100 mt-3 btn btn-outline-success">เริ่มการทำงาน</button>
-                            </div></div>
+                                <button onclick="input_dis(true);AppStop();$('.modewash').attr('disabled',false);$('.temperature').attr('disabled',false);$(this).attr('disabled',true);" id="AppStop" style="font-size:20px" class="w-100 mt-3 btn btn-outline-danger">สิ้นสุด</button>
+                                <button onclick="input_dis(true);onStartWash('ยืนยะนการทำรายการ','Wash');$('.modewash').attr('disabled',true);$('.temperature').attr('disabled',true);$(this).attr('disabled',true);" id="AppStart" style="font-size:20px" class="w-100 mt-3 btn btn-outline-success">เริ่มการทำงาน</button>
+                            </div>
+                        </div>
                     </ons-col>
                 </ons-row>
             </ons-card>
-<script>
- input_dis(true);
- $('#AppStart').attr('disabled',true);
- $('#AppStop').attr('disabled',true);
+            <script>
+                input_dis(true);
+                $('#AppStart').attr('disabled', true);
+                $('#AppStop').attr('disabled', true);
 
-            var socket = io.connect(window.location.hostname+':5000');
-            socket.on('connect', function() {
-                socket.send('connect'); 
-                console.log('connect')
-            });
+                var socket = io.connect(window.location.hostname+':5000');
+                socket.on('connect', function() {
+                    socket.send('connect');
+                    console.log('connect')
+                });
 
 
-</script>
+            </script>
         </ons-page>
     </template>
     <template id="tab2.html">
@@ -461,9 +478,9 @@ function input_dis(str){
                 <ons-row>
                     <ons-col class="me-2 text-center center">
                         <img class="border rounded" src="https://image-charts.com/chart?chs=150x150&cht=qr&choe=UTF-8&chl=https%3A%2F%2Fliff.line.me%2F2006423749-V2bglBzM">
-<div class="text-center">
-<img style="max-height:50px;" class="mt-2"  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdndEW1NXNFi-MBmS8QX-6DgJghX2HpJOh_aMJ0Zjj1TTzNWTgpQa8bqw&s=10">
-</div> 
+                        <div class="text-center">
+                            <img style="max-height:50px;" class="mt-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdndEW1NXNFi-MBmS8QX-6DgJghX2HpJOh_aMJ0Zjj1TTzNWTgpQa8bqw&s=10">
+                        </div>
                     </ons-col>
                     <ons-col class="p-2">
                         <div class="text-center text-weight">
@@ -471,35 +488,35 @@ function input_dis(str){
                         </div>
                         <div class=" mt-2">
                             <div class="">
-                                ยอดเงิน : 
-<span class="Numbers text-danger" id="amount">50</span> บาท
+                                ยอดเงิน :
+                                <span class="Numbers text-danger" id="amounts">50</span> บาท
                             </div>
                             <div class="mt-1">
-                                โหมดซัก : 
-<span class="text-danger" id="status_mode">ซักด่วน</span>
+                                โหมดซัก :
+                                <span class="text-danger" id="status_modes">ซักด่วน</span>
                             </div>
                             <div class="mt-1">
-                                อุณหภูมิ : 
-<span class="text-danger
-" id="statustemp">ปกติ </span>
+                                อุณหภูมิ :
+                                <span class="text-danger
+                                    " id="statustemps">ปกติ </span>
                             </div>
                             <div class="mt-1">
-                                ใช้เวลา : 
-<span class="text-primary" id="status_time">0</span> 
+                                ใช้เวลา :
+                                <span class="text-primary" id="status_times">0</span>
                             </div>
 
-<div class="mt-1">
-รายการ : 
-<span class="text-primary" id="status_id">WASH0001</span> 
+                            <div class="mt-1">
+                                รายการ :
+                                <span class="text-primary" id="status_ids">WASH0001</span>
 
                             </div>
                         </div>
                     </ons-col>
                 </ons-row>
-<br>
-<smaller>** หมายเหตุ  ** <br>
-สามารถใช้ QRCode  นี้ได้ครั้งเดียวเท่านั้น
-</smaller>
+                <br>
+                <smaller>** หมายเหตุ  ** <br>
+                    สามารถใช้ QRCode  นี้ได้ครั้งเดียวเท่านั้น
+                </smaller>
 
             </ons-card>
 
@@ -507,35 +524,39 @@ function input_dis(str){
     </template>
     <template id="tab3.html">
         <ons-page id="Tab3">
-               <ons-card>
+            <ons-card>
                 <ons-row class="center text-center p-0 m-0">
-                ยอดเงิน 
-<div id="Price" style="height:45px;font-size:32px;text-align:center;padding:0px;margin:0 auto;" class="p-0 m-0 w-100 rounded border center text-center bg-dark text-light">0</div> 
+                    ยอดเงิน
+                    <div id="Price" style="height:45px;font-size:32px;text-align:center;padding:0px;margin:0 auto;" class="p-0 m-0 w-100 rounded border center text-center bg-dark text-light">
+                        0
+                    </div>
                 </ons-row>
-                </ons-card>
+            </ons-card>
             <ons-card>
                 <ons-row>
                     <ons-col class="me-2">
                         <div id="card-member m-2">
-<div class="row">
-<div  class="col-12 text-center">
-<div>
-    แสกนเพื่อชำระเงิน
-</div> 
-<div>
-<img id="payment_qr" class="border rounded" style="width:200px;max-height:200px;" width="100%" 
-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbF0JgqiEWN6wFHxWQCrIfllBR_qsNVq-1Cg&usqp=CAU">
-</div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <div>
+                                        แสกนเพื่อชำระเงิน
+                                    </div>
+                                    <div>
+                                        <img id="payment_qr" class="border rounded" style="width:200px;max-height:200px;" width="100%"
+                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbF0JgqiEWN6wFHxWQCrIfllBR_qsNVq-1Cg&usqp=CAU">
+                                    </div>
 
-</div>
-<div class="col-12 text-center">
-<img style="max-height:50px;" class="mt-2"  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdndEW1NXNFi-MBmS8QX-6DgJghX2HpJOh_aMJ0Zjj1TTzNWTgpQa8bqw&s=10">
-</div> 
+                                </div>
+                                <div class="col-12 text-center">
+                                    <img style="max-height:50px;" class="mt-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdndEW1NXNFi-MBmS8QX-6DgJghX2HpJOh_aMJ0Zjj1TTzNWTgpQa8bqw&s=10">
+                                </div>
                             </div>
                         </div>
                     </ons-col>
                     <ons-col>
-<div class="text-center w-100">ระบุจำนวนเงิน</div>
+                        <div class="text-center w-100">
+                            ระบุจำนวนเงิน
+                        </div>
 
                         <ul class="d-none pt-2 m-2 list">
                             <li class="list-item">
@@ -545,59 +566,59 @@ src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbF0JgqiEWN6wFHxWQCrI
                             </li>
                         </ul>
 
-<div id="padtab">
-                        <ons-row>
-                            <ons-col class="p-1">
-                                <ons-button onclick="CHGPHONE(1)" style="font-size:20px" class="w-100 btn btn-dark">1</ons-button>
-                            </ons-col>
-                            <ons-col class="p-1">
-                                <ons-button onclick="CHGPHONE(2)" style="font-size:20px" class="w-100 btn btn-dark">2</ons-button>
-                            </ons-col>
-                            <ons-col class="p-1">
-                                <ons-button onclick="CHGPHONE(3)" style="font-size:20px" class="w-100 btn btn-dark">3</ons-button>
-                            </ons-col>
-                        </ons-row>
-                        <ons-row>
-                            <ons-col class="p-1">
-                                <ons-button onclick="CHGPHONE(4)" style="font-size:20px" class="w-100 btn btn-dark">4</ons-button>
-                            </ons-col>
-                            <ons-col class="p-1">
-                                <ons-button onclick="CHGPHONE(5)" style="font-size:20px" class="w-100 btn btn-dark">5</ons-button>
-                            </ons-col>
-                            <ons-col class="p-1">
-                                <ons-button onclick="CHGPHONE(6)" style="font-size:20px" class="w-100 btn btn-dark">6</ons-button>
-                            </ons-col>
-                        </ons-row>
+                        <div id="padtab">
+                            <ons-row>
+                                <ons-col class="p-1">
+                                    <ons-button onclick="CHGPHONE(1)" style="font-size:20px" class="w-100 btn btn-dark">1</ons-button>
+                                </ons-col>
+                                <ons-col class="p-1">
+                                    <ons-button onclick="CHGPHONE(2)" style="font-size:20px" class="w-100 btn btn-dark">2</ons-button>
+                                </ons-col>
+                                <ons-col class="p-1">
+                                    <ons-button onclick="CHGPHONE(3)" style="font-size:20px" class="w-100 btn btn-dark">3</ons-button>
+                                </ons-col>
+                            </ons-row>
+                            <ons-row>
+                                <ons-col class="p-1">
+                                    <ons-button onclick="CHGPHONE(4)" style="font-size:20px" class="w-100 btn btn-dark">4</ons-button>
+                                </ons-col>
+                                <ons-col class="p-1">
+                                    <ons-button onclick="CHGPHONE(5)" style="font-size:20px" class="w-100 btn btn-dark">5</ons-button>
+                                </ons-col>
+                                <ons-col class="p-1">
+                                    <ons-button onclick="CHGPHONE(6)" style="font-size:20px" class="w-100 btn btn-dark">6</ons-button>
+                                </ons-col>
+                            </ons-row>
 
-                        <ons-row>
-                            <ons-col class="p-1">
-                                <ons-button onclick="CHGPHONE(7)" style="font-size:20px" class="w-100 btn btn-dark">7</ons-button>
-                            </ons-col>
-                            <ons-col class="p-1">
-                                <ons-button onclick="CHGPHONE(8)" style="font-size:20px" class="w-100 btn btn-dark">8</ons-button>
-                            </ons-col>
-                            <ons-col class="p-1">
-                                <ons-button onclick="CHGPHONE(9)" style="font-size:20px" class="w-100 btn btn-dark">9</ons-button>
-                            </ons-col>
-                        </ons-row>
-<ons-row>
-                            <ons-col class="p-1">
-                                <ons-button onclick="CLEARNO()" style="font-size:20px" class="w-100 btn btn-danger">-</ons-button>
-                            </ons-col>
-                            <ons-col class="p-1">
-                                <ons-button onclick="CHGPHONE(0)" style="font-size:20px" class="w-100 btn btn-dark">0</ons-button>
-                            </ons-col>
-                            <ons-col class="p-1">
-                                <ons-button disabled onclick="ClearAll()" style="font-size:20px" class="w-100 btn">*</ons-button>
-                            </ons-col>
-</ons-row>
-                        <ons-row>
+                            <ons-row>
+                                <ons-col class="p-1">
+                                    <ons-button onclick="CHGPHONE(7)" style="font-size:20px" class="w-100 btn btn-dark">7</ons-button>
+                                </ons-col>
+                                <ons-col class="p-1">
+                                    <ons-button onclick="CHGPHONE(8)" style="font-size:20px" class="w-100 btn btn-dark">8</ons-button>
+                                </ons-col>
+                                <ons-col class="p-1">
+                                    <ons-button onclick="CHGPHONE(9)" style="font-size:20px" class="w-100 btn btn-dark">9</ons-button>
+                                </ons-col>
+                            </ons-row>
+                            <ons-row>
+                                <ons-col class="p-1">
+                                    <ons-button onclick="CLEARNO()" style="font-size:20px" class="w-100 btn btn-danger">-</ons-button>
+                                </ons-col>
+                                <ons-col class="p-1">
+                                    <ons-button onclick="CHGPHONE(0)" style="font-size:20px" class="w-100 btn btn-dark">0</ons-button>
+                                </ons-col>
+                                <ons-col class="p-1">
+                                    <ons-button disabled onclick="ClearAll()" style="font-size:20px" class="w-100 btn">*</ons-button>
+                                </ons-col>
+                            </ons-row>
+                            <ons-row>
 
-                            <ons-col class="p-1">
-                                <ons-button onclick="CONFIRMLOGIN()" style="font-size:18px" class="w-100 btn btn-primary">ยืนยัน</ons-button>
-                            </ons-col>
-                        </ons-row>
-</div>
+                                <ons-col class="p-1">
+                                    <ons-button onclick="CONFIRMLOGIN()" style="font-size:18px" class="w-100 btn btn-primary">ยืนยัน</ons-button>
+                                </ons-col>
+                            </ons-row>
+                        </div>
 
                     </ons-col>
                 </ons-row>
@@ -612,8 +633,8 @@ src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbF0JgqiEWN6wFHxWQCrI
                     <ons-list-item onclick="fn.load('home.html')" tappable>
                         Home
                     </ons-list-item>
-                    <ons-list-item onclick="fn.load('settings.html')" tappable>
-                        Settings
+                    <ons-list-item onclick="fn.load('tab1.html')" tappable>
+                        เครื่องซักผ้า
                     </ons-list-item>
                     <ons-list-item onclick="fn.load('tab3.html')" tappable>
                         แลกเหรียญ
@@ -621,7 +642,7 @@ src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbF0JgqiEWN6wFHxWQCrI
                 </ons-list>
             </ons-page>
         </ons-splitter-side>
-        <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
+        <ons-splitter-content id="content" page="tab1.html"></ons-splitter-content>
     </ons-splitter>
 
     <template id="home.html">
@@ -769,70 +790,120 @@ src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbF0JgqiEWN6wFHxWQCrI
         </ons-alert-dialog>
     </template>
 
-<script>
-    function CONFIRMLOGIN(){
-        var phonex = $('#phone').val();
-        if(phonex.length < 1 || phonex == ''){
-             SoundError();
-             phone = '';
-             number = '';
-             return false
+    <template id="Start-wash.html">
+        <ons-alert-dialog id="start-alert-dialog">
+            <div id="start_title" class="d-none alert-dialog-title">
+                ยืนยันการทำรายการ
+            </div>
+            <div class="row">
+            <div class="col-md-5">
+                    <div class=" ms-md-3 text-center center">
+                        <img class="border rounded" src="https://image-charts.com/chart?chs=150x150&cht=qr&choe=UTF-8&chl=https%3A%2F%2Fliff.line.me%2F2006423749-V2bglBzM">
+                   </div>
+</div>
+            <div class="col-md-7">
+                        <div class="d-md-none text-center text-weight">
+                            ชำระเงินด้วย QRCODE
+                        </div>
+                        <div class="p-2 mt-2">
+                            <div class="">
+                                ยอดเงิน :
+                                <span class="Numbers text-danger" id="amount">50</span> บาท
+                            </div>
+                            <div class="mt-1">
+                                โหมดซัก :
+                                <span class="text-danger" id="status_mode">ซักด่วน</span>
+                            </div>
+                            <div class="mt-1">
+                                อุณหภูมิ :
+                                <span class="text-danger
+                                    " id="statustemp">ปกติ </span>
+                            </div>
+                            <div class="mt-1">
+                                ใช้เวลา :
+                                <span class="text-primary" id="status_time">0</span>
+                            </div>
+
+                            <div class="mt-1">
+                                รายการ :
+                                <span class="text-primary" id="status_id">WASH0001</span>
+
+                            </div>
+                        </div>
+      </div>
+</div>
+            <div class="mt-3 mb-2 text-center alert-dialog-footer">
+                <button class=" ps-3 pe-3 btn btn-danger" onclick="hideAlertConfirm();input_dis(false); $('#AppStart').attr('disabled', false);$('#AppStop').attr('disabled', true);">ยกเลิก</button>
+                <button class=" ps-3 pe-3 btn btn-primary" onclick="hideAlertConfirm();AppStart();">ยืนยัน</button>
+            </div>
+
+        </ons-alert-dialog>
+    </template>
+
+    <script>
+        function CONFIRMLOGIN() {
+            var phonex = $('#phone').val();
+            if (phonex.length < 1 || phonex == '') {
+                SoundError();
+                phone = '';
+                number = '';
+                return false
+            }
+
+            showModal()
+            //createAlertDialog('กำลังดำเนินการ','กรุณารอสักครู')
+            if (phonex.length == 10) {
+                return false;
+            }
         }
 
-        showModal() 
-        //createAlertDialog('กำลังดำเนินการ','กรุณารอสักครู')
-        if(phonex.length == 10){
-            return false;
-        }
-    }
-
-    function ClearAll(){
-         Click();
-        $('#phone').val('');
-        $('#Price').html($('#phone').val());
-        $('#payment_qr').attr('src','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbF0JgqiEWN6wFHxWQCrIfllBR_qsNVq-1Cg&usqp=CAU');
-    }
-
-
-    function OnSuccess(){
-         Win();
-        $('#phone').val('');
-        $('#Price').html($('#phone').val());
-        $('#payment_qr').attr('src','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbF0JgqiEWN6wFHxWQCrIfllBR_qsNVq-1Cg&usqp=CAU');
-    }
-
-    function CLEARNO(){
-        var phonex = $('#phone').val();
-        if(phonex.length == 0){
-            return false;
-        }
-         SoundError();
-         var length = parseInt(phonex.length)-1;
-         var nom = phonex.substr(0,length);
-        $('#phone').val(nom); 
-        $('#Price').html($('#phone').val())
-    }
-
-
-    function CHGPHONE(number){
-        var phone = $('#phone').val();
-
-        if(phone.length < 1&& number == '0'){
-             SoundError();
-             phone = '';
-             number = '';
-             return false
+        function ClearAll() {
+            Click();
+            $('#phone').val('');
+            $('#Price').html($('#phone').val());
+            $('#payment_qr').attr('src', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbF0JgqiEWN6wFHxWQCrIfllBR_qsNVq-1Cg&usqp=CAU');
         }
 
-        if(phone.length == 10){
-            return false;
+
+        function OnSuccess() {
+            Win();
+            $('#phone').val('');
+            $('#Price').html($('#phone').val());
+            $('#payment_qr').attr('src', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbF0JgqiEWN6wFHxWQCrIfllBR_qsNVq-1Cg&usqp=CAU');
         }
 
-        Sure();
-        $('#phone').val(phone+number);
-        $('#Price').html($('#phone').val())
-    }
-</script>
+        function CLEARNO() {
+            var phonex = $('#phone').val();
+            if (phonex.length == 0) {
+                return false;
+            }
+            SoundError();
+            var length = parseInt(phonex.length)-1;
+            var nom = phonex.substr(0, length);
+            $('#phone').val(nom);
+            $('#Price').html($('#phone').val())
+        }
+
+
+        function CHGPHONE(number) {
+            var phone = $('#phone').val();
+
+            if (phone.length < 1 && number == '0') {
+                SoundError();
+                phone = '';
+                number = '';
+                return false
+            }
+
+            if (phone.length == 10) {
+                return false;
+            }
+
+            Sure();
+            $('#phone').val(phone+number);
+            $('#Price').html($('#phone').val())
+        }
+    </script>
 
     <script>
         window.fn = {};
@@ -864,59 +935,83 @@ src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbF0JgqiEWN6wFHxWQCrI
         function showModal() {
             var modal = document.querySelector('ons-modal');
             modal.show();
-            $('.btn').attr('disabled',true);
-            $('button').attr('disabled',true);
+            $('.btn').attr('disabled', true);
+            $('button').attr('disabled', true);
             Win();
-                $('#payment_qr').attr('src','https://cdn-icons-gif.flaticon.com/7994/7994392.gif');
+            $('#payment_qr').attr('src', 'https://cdn-icons-gif.flaticon.com/7994/7994392.gif');
 
             setTimeout(function() {
-                modal.hide(); 
+                modal.hide();
                 Coud();
-                $('#payment_qr').attr('src','https://image-charts.com/chart?chs=150x150&cht=qr&choe=UTF-8&chl=https%3A%2F%2Fliff.line.me%2F2006423749-V2bglBzM');
+                $('#payment_qr').attr('src', 'https://image-charts.com/chart?chs=150x150&cht=qr&choe=UTF-8&chl=https%3A%2F%2Fliff.line.me%2F2006423749-V2bglBzM');
 
-setTimeout(function() {
-createAlertDialog('สำเร็จ','ทำรายการเรียบร้อยแล้ว '+ $('#Price').html()+' บาท')
-OnSuccess();
-$('.btn').attr('disabled',false);
- $('button').attr('disabled',false);
- }, 2000);
+                setTimeout(function() {
+                    createAlertDialog('สำเร็จ', 'ทำรายการเรียบร้อยแล้ว '+ $('#Price').html()+' บาท')
+                    OnSuccess();
+                    $('.btn').attr('disabled', false);
+                    $('button').attr('disabled', false);
+                }, 2000);
 
             }, 2000);
         }
 
-        var createAlertDialog = function(title,text) {
+        var onStartWash = function(title, text) {
+            var dialog = document.getElementById('start-alert-dialog');
+            if (dialog) {
+                //$('#start_title').html(title);
+                //$('#start_text').html(text);
+                dialog.show();
+            } else {
+                ons.createElement('Start-wash.html', {
+                    append: true
+                })
+                .then(function(dialog) {
+                   // $('#start_title').html(title);
+                   // $('#start_text').html(text);
+                    dialog.show(); 
+                });
+            }
+        };
+
+
+        var createAlertDialog = function(title, text) {
             var dialog = document.getElementById('my-alert-dialog');
             if (dialog) {
+                $('#alert_title').html(title);
+                $('#alert_text').html(text);
                 dialog.show();
             } else {
                 ons.createElement('alert-dialog.html', {
                     append: true
                 })
                 .then(function(dialog) {
-                $('#alert_title').html(title);
-                $('#alert_text').html(text);
+                    $('#alert_title').html(title);
+                    $('#alert_text').html(text);
                     dialog.show();
                 });
             }
         };
-
+        var hideAlertConfirm = function() {
+            document.getElementById('start-alert-dialog').hide();
+        };
         var hideAlertDialog = function() {
             document.getElementById('my-alert-dialog').hide();
         };
         var notify = function() {
             ons.notification.alert('This dialog was created with ons.notification');
         };
+
         var showTemplateDialog = function(msg) {
             var dialog = document.getElementById('my-dialog');
             if (dialog) {
- $('#dialog_msg').html(msh);
+                $('#dialog_msg').html(msh);
                 dialog.show();
             } else {
                 ons.createElement('dialog.html', {
                     append: true
                 })
                 .then(function(dialog) {
- $('#dialog_msg').html(msh);
+                    $('#dialog_msg').html(msh);
                     dialog.show();
                 });
             }
@@ -928,82 +1023,86 @@ $('.btn').attr('disabled',false);
 
 
     </script>
-<audio id="sound_click" src="https://huay-plus.com/sound/click.wav" autostart="false">
-</audio>
-<audio id="sound_sure" src="https://app-wash.all123th.com/sound/DFTM.mp3" autostart="false">
-      <source src="https://app-wash.all123th.com/sound/DFTM.mp3" type="audio/mpeg">
-</audio>
-<audio id="sound_sweep" src="https://app-wash.all123th.com/sound/TRANSITION_SWEEP.mp3" autostart="false">
-<source src="https://app-wash.all123th.com/sound/TRANSITION_SWEEP.mp3" type="audio/mpeg">
-</audio>
-<audio id="sound_Error" src="https://app-wash.all123th.com/sound/Error.mp3" autostart="false">
-    <source src="https://app-wash.all123th.com/sound/Error.mp3" type="audio/mpeg">
-</audio>
-<audio id="sound_win" src="https://app-wash.all123th.com/sound/WIN.mp3" autostart="false">
-    <source src="https://app-wash.all123th.com/sound/WIN.mp3" type="audio/mpeg">
-</audio>
-<audio id="intro_ccoud" src="https://app-wash.all123th.com/sound/intro_ccoud.mp3" autostart="false">
-    <source src="https://app-wash.all123th.com/sound/intro_ccoud.mp3" type="audio/mpeg">
+    <audio id="sound_click" src="https://huay-plus.com/sound/click.wav" autostart="false">
+    </audio>
+    <audio id="sound_sure" src="https://app-wash.all123th.com/sound/DFTM.mp3" autostart="false">
+        <source src="https://app-wash.all123th.com/sound/DFTM.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sound_sweep" src="https://app-wash.all123th.com/sound/TRANSITION_SWEEP.mp3" autostart="false">
+        <source src="https://app-wash.all123th.com/sound/TRANSITION_SWEEP.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sound_Error" src="https://app-wash.all123th.com/sound/Error.mp3" autostart="false">
+        <source src="https://app-wash.all123th.com/sound/Error.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sound_win" src="https://app-wash.all123th.com/sound/WIN.mp3" autostart="false">
+        <source src="https://app-wash.all123th.com/sound/WIN.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="intro_ccoud" src="https://app-wash.all123th.com/sound/intro_ccoud.mp3" autostart="false">
+        <source src="https://app-wash.all123th.com/sound/intro_ccoud.mp3" type="audio/mpeg">
 
-</audio>
+    </audio>
 
-<script>
-   var sound_click = document.getElementById("sound_click");
-   var sound_sure = document.getElementById("sound_sure");
-   var sound_sweep = document.getElementById("sound_sweep");
-   var sound_Error = document.getElementById("sound_Error");
-   var sound_win = document.getElementById("sound_win");
-   var intro_ccoud = document.getElementById("intro_ccoud");
- 
-    function Click(){
-sound_click.currentTime = 0;
-sound_click.play();}
+    <script>
+        var sound_click = document.getElementById("sound_click");
+        var sound_sure = document.getElementById("sound_sure");
+        var sound_sweep = document.getElementById("sound_sweep");
+        var sound_Error = document.getElementById("sound_Error");
+        var sound_win = document.getElementById("sound_win");
+        var intro_ccoud = document.getElementById("intro_ccoud");
 
-    function Sweep(){
-sound_sweep.currentTime = 0;
-sound_sweep.play();}
-
-    function Sure(){
-sound_sure.currentTime = 0;
-sound_sure.play();}
-
-    function Win(){
-sound_win.currentTime = 0;
-sound_win.play();}
-
-    function SoundError(){
-sound_Error.currentTime = 0;
-sound_Error.play();
-    }
-
-    function Coud(){
-intro_ccoud.currentTime = 0;
-intro_ccoud.play();
-
-    }
-
-    function zeroFill(n){
-        return ('0' + n).slice(-2);
-    }
-
-    function checkTime(i) {
-        if (i < 10) {
-            i = "0" + i
-        };
-        return i;
-    }
-
-    const interval = setInterval(() => {
-        if(!$('TIMESERVER')){
-            return false;
+        function Click() {
+            sound_click.currentTime = 0;
+            sound_click.play();
         }
-        const now = new Date();
-        const runDate = now.getFullYear()+ '-'+zeroFill(now.getMonth()+1) + '-' + zeroFill(now.getDate());
-        const runTime = zeroFill(now.getHours()) + ':' + zeroFill(now.getMinutes()) + ':' + zeroFill(now.getSeconds());
-        const LOADID = runTime.replace(':', '').replace(':', '').replace(':', '');
-        document.getElementById('TIMESERVER').innerHTML = runTime;
-    }, 1000);
 
-  </script>
+        function Sweep() {
+            sound_sweep.currentTime = 0;
+            sound_sweep.play();
+        }
+
+        function Sure() {
+            sound_sure.currentTime = 0;
+            sound_sure.play();
+        }
+
+        function Win() {
+            sound_win.currentTime = 0;
+            sound_win.play();
+        }
+
+        function SoundError() {
+            sound_Error.currentTime = 0;
+            sound_Error.play();
+        }
+
+        function Coud() {
+            intro_ccoud.currentTime = 0;
+            intro_ccoud.play();
+
+        }
+
+        function zeroFill(n) {
+            return ('0' + n).slice(-2);
+        }
+
+        function checkTime(i) {
+            if (i < 10) {
+                i = "0" + i
+            };
+            return i;
+        }
+
+        const interval = setInterval(() => {
+            if (!$('TIMESERVER')) {
+                return false;
+            }
+            const now = new Date();
+            const runDate = now.getFullYear()+ '-'+zeroFill(now.getMonth()+1) + '-' + zeroFill(now.getDate());
+            const runTime = zeroFill(now.getHours()) + ':' + zeroFill(now.getMinutes()) + ':' + zeroFill(now.getSeconds());
+            const LOADID = runTime.replace(':', '').replace(':', '').replace(':', '');
+            document.getElementById('TIMESERVER').innerHTML = runTime;
+        }, 1000);
+
+    </script>
 </body>
 </html>
