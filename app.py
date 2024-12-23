@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template,send_file
 from flask_socketio import SocketIO, emit, send
+
 from flask_cors import CORS, cross_origin
 import requests
 import time
@@ -33,7 +34,6 @@ def START_MATCHINE():
 
 def STOP_MATCHINE():
     BTN_START = 0
-    LED_API(pion['led'],'off',1)
 
 def GetSerial():
     returned_output = uuid.getnode()#subprocess.call("cat /sys/firmware/devicetree/base/serial-number",shell=True)
@@ -45,19 +45,16 @@ def LED_API(LINE,TYPE,SEC=1):
     if SEC == 0 and TYPE == 'on':
        print("SEC เปิดค้าง")
        led.on()
-      # pause()
     if TYPE == 'on' and SEC > 0:
        print("ON OFF")
        led.on()
        sleep(SEC)
-
     if TYPE == 'loop' :
         while True:
           with open('data.json', 'r') as f:
             json_data = json.load(f)
-          if json_data['data']['start'] == 0:
-            print("หยุด")
-            return f"success"
+          if int(json_data['data']['start']) == 0:
+            return print("หยุด")
           led.on()
           sleep(1)
           led.off()
@@ -87,9 +84,9 @@ API_PORT = 5000
 DEBUG_MODE = False# โหมด ทดลอง  True|False
 app = Flask(__name__,template_folder="")
 app.config['SECRET_KEY'] = str(uuid.getnode())
+
 socketio = SocketIO(app,cors_allowed_origins="*")
 CORS(app)
-
 if os.path.isfile('cert.pem'):
     print('ok ssl')
 else:
@@ -510,19 +507,26 @@ def handleMessage(msg):
           START_MATCHINE()
        return send(json_data, broadcast=True)
 
-@socketio.on_error()        # Handles the default namespace
+@socketio.on_error()
+def error_handler_on(e):
+    print('An error has occurred: ' + str(e))
+@socketio.on_error_default
 def error_handler(e):
-    print(f'An error occurred: {e}')
+    print('An error has occurred: ' + str(e))
 
+
+@app.errorhandler(501)
+def page_not_304():
+   return jsonify({"status": "error","code": "304","msg":"304"}),200
 @app.errorhandler(500)
 def page_not_s():
-   return jsonify({"status": "error","code": "500","msg":"ไม่พร้อมใช้งาน"}),200
+   return jsonify({"status": "error","code": "500","msg":"500"}),200
 @app.errorhandler(404)
 def page_not_found():
-   return jsonify({"status": "error","code": "404","msg":"ไม่พร้อมใช้งาน"}),200
+   return jsonify({"status": "error","code": "404","msg":"404"}),200
 @app.errorhandler(400)
 def page_not_found_400():
-   return jsonify({"status": "error","code": "400","msg":"ไม่พร้อมใช้งาน"}),200
+   return jsonify({"status": "error","code": "400","msg":"400"}),200
 
 
 ###### iot api
