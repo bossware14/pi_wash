@@ -7,15 +7,13 @@
 import ngrok
 import time
 
-token = '2q6m1Gd0w8fEuibiwyToH0JEyfx_2ft99jvARhHn2u8Q2EPe1'
+#token = '2q6m1Gd0w8fEuibiwyToH0JEyfx_2ft99jvARhHn2u8Q2EPe1'
 # Establish connectivity
-ngrok.set_auth_token(token)
+#ngrok.set_auth_token(token)
 
-listener = ngrok.forward(5000, authtoken_from_env=True,authtoken=token)
-
+listener = ngrok.forward(5000, authtoken_from_env=True)
 # Output ngrok url to console
 print(f"Ingress established at {listener.url()}")
-
 # Keep the listener alive
 try:
 while True:
