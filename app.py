@@ -614,14 +614,16 @@ def UpdateOnline(app,data):
 #SSL
 #pip install pyopenssl
 
-SetUp()
-
 if __name__ == '__main__':
-    token = '2q6m1Gd0w8fEuibiwyToH0JEyfx_2ft99jvARhHn2u8Q2EPe1'
-    ngrok.set_auth_token(token)
-    listeners = ngrok.forward("http://"+str(json_data['ip'])+":"+str(API_PORT))
-    print(f"Ingress established at "+str(listeners.url()))
-    json_data["url"] = str(listeners.url())
+    try :
+      token = '2q6m1Gd0w8fEuibiwyToH0JEyfx_2ft99jvARhHn2u8Q2EPe1'
+      ngrok.set_auth_token(token)
+      listeners = ngrok.forward("http://"+str(json_data['ip'])+":"+str(API_PORT))
+      print(f"Ingress established at "+str(listeners.url()))
+      json_data["url"] = str(listeners.url())
+    except:
+      print('Error')
+    SetUp() 
     UpdateOnline(json_data['serial-number'],json_data)
     socketio.run(app,host="0.0.0.0",port=API_PORT, debug=DEBUG_MODE)
     #socketio.run(app,host="0.0.0.0",port=API_PORT, debug=DEBUG_MODE,ssl_context=('cert.pem', 'key.pem'))
