@@ -115,7 +115,7 @@ else:
     os.system('pip install pyopenssl')
     print('create ssl')
     create_ssl = os.system('openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365 -subj "/C=TH/ST=Thailand/L=Bangkok/O=All123TH/CN=app-wash.all123th.com"')
-    os.system('pip install ngrok')
+    SETUP_NG()
     print(create_ssl)
 
 def SetUp():
@@ -360,9 +360,9 @@ def favicon():
     return send_file(filename, mimetype='image/png')
     #return render_template('images.png')
 
-@app.route('/ngrok')
-def NGrok():
-      subprocess.call("ngrok http http://localhost:"+str(API_PORT),shell=True)
+#@app.route('/ngrok')
+#def NGrok():
+#      subprocess.call("ngrok http http://localhost:"+str(API_PORT),shell=True)
 
 
 @socketio.event()
@@ -614,13 +614,13 @@ def UpdateOnline(app,data):
 #SSL
 #pip install pyopenssl
 
+SetUp()
 
 if __name__ == '__main__':
     token = '2q6m1Gd0w8fEuibiwyToH0JEyfx_2ft99jvARhHn2u8Q2EPe1'
     ngrok.set_auth_token(token)
     listeners = ngrok.forward("http://"+str(json_data['ip'])+":"+str(API_PORT))
     print(f"Ingress established at "+str(listeners.url()))
-    SetUp()
     json_data["url"] = str(listeners.url())
     UpdateOnline(json_data['serial-number'],json_data)
     socketio.run(app,host="0.0.0.0",port=API_PORT, debug=DEBUG_MODE)
