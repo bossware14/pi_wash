@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+#pip install ngrok
+#python3 -m pip install ngrok
+#touch ng.py
+#NGROK_AUTHTOKEN=2q6m1Gd0w8fEuibiwyToH0JEyfx_2ft99jvARhHn2u8Q2EPe1 python3 ng.py
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import logging, ngrok
