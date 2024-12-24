@@ -462,8 +462,8 @@
                 input_dis(true);
                 $('#AppStart').attr('disabled', true);
                 $('#AppStop').attr('disabled', true);
-
-                var socket = io.connect(window.location.hostname+':5000');
+                var socket = io.connect();
+                //var socket = io.connect(window.location.hostname+':5000');
                 socket.on('connect', function() {
                     socket.send('connect');
                     console.log('connect')
