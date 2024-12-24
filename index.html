@@ -170,7 +170,8 @@
     var onclick = 1;
     var OnOk = 0;
     var RUNTIME = setInterval(() => {}, 1000);
-    var socket = io.connect(window.location.hostname+':5000');
+    //var socket = io.connect(window.location.hostname+':5000');
+    var socket = io.connect();
     document.addEventListener('DOMContentLoaded', (event) => {
         socket.on('connect', function() {
                 $('#STATUS_LED').removeClass('bg-blue');
