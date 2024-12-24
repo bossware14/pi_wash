@@ -1,6 +1,5 @@
-from flask import Flask, request, jsonify, render_template,send_file
+from flask import Flask, request, jsonify, render_template,send_file 
 from flask_socketio import SocketIO, emit, send
-
 from flask_cors import CORS, cross_origin
 import requests
 import time
@@ -12,25 +11,43 @@ import json
 from datetime import datetime, timezone, timedelta
 import socket
 import uuid
-
-from gpiozero import MotionSensor , AngularServo , LED
+from gpiozero import MotionSensor , AngularServo , LED ,Servo
 from signal import pause
-
-
+import logging, ngrok
+#NGROK_AUTHTOKEN=2q6m1Gd0w8fEuibiwyToH0JEyfx_2ft99jvARhHn2u8Q2EPe1 python3 app.py
 #autostart
 #sudo nano ~/.bashrc
 #sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
 #ps aux|grep python
-
 #deviceId = str(os.system("cat /sys/firmware/devicetree/base/serial-number")).replace("\n",'')
 deviceId = str(uuid.getnode())
-
 #BTN_START = 0
+
+def SVSTART(line,START_MATCHINE):
+  try:
+    servo = Servo(line)
+    servo.value = START_MATCHINE
+    while True :
+      with open('data.json', 'r') as f:
+        json_data = json.load(f)
+        if int(json_data['data']['start']) == 0:
+            return print("Motor")
+      print('Start Servo')
+      servo.min()
+      sleep(1)
+      servo.mid()
+      sleep(1)
+      servo.max()
+      sleep(1)
+  finally:
+    servo.close()
 
 #ฟังชั่นเริ่มทำงาน
 def START_MATCHINE():
     BTN_START = 1
     LED_API(pion['led'],'loop',1)
+    #SVSTART(int(pion['start']),1)
+
 
 def STOP_MATCHINE():
     BTN_START = 0
@@ -80,12 +97,17 @@ def LED_API(LINE,TYPE,SEC=1):
 # sudo chmod -R 777 /var/www/html
 # cp index.html /var/www/html
 
+secret = os.urandom(24).hex()
 API_PORT = 5000
 DEBUG_MODE = False# โหมด ทดลอง  True|False
 app = Flask(__name__,template_folder="")
-app.config['SECRET_KEY'] = str(uuid.getnode())
+#app.config['SECRET_KEY'] = str(uuid.getnode())
+app.logger.info("Starting...")
+app.config['SECRET_KEY'] = secret
+app.logger.critical("secret: %s" % secret)
+socketio = SocketIO(app,cors_allowed_origins="*",async_mode=None)
+#logging.basicConfig(level=logging.INFO)
 
-socketio = SocketIO(app,cors_allowed_origins="*")
 CORS(app)
 if os.path.isfile('cert.pem'):
     print('ok ssl')
@@ -93,6 +115,7 @@ else:
     os.system('pip install pyopenssl')
     print('create ssl')
     create_ssl = os.system('openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365 -subj "/C=TH/ST=Thailand/L=Bangkok/O=All123TH/CN=app-wash.all123th.com"')
+    os.system('pip install ngrok')
     print(create_ssl)
 
 def SetUp():
@@ -131,6 +154,14 @@ def STOP_APP():
     os.system("pkill chromium")
     msg = {}
     msg['msg'] = 'STOP'
+    return jsonify(msg),200
+
+@app.route('/ngrok')
+def SETUP_NG():
+    os.system("pip install ngrok")
+    os.system("ngrok config add-authtoken 2q6m1Gd0w8fEuibiwyToH0JEyfx_2ft99jvARhHn2u8Q2EPe1")
+    msg = {}
+    msg['msg'] = 'OJ'
     return jsonify(msg),200
 
 @app.route('/update')
@@ -571,8 +602,6 @@ def on_led_app():
     return jsonify(msg),200
 
 
-SetUp()
- 
 def UpdateOnline(app,data):
     headers = {"Content-Type": "application/json"}
     url = str("https://app-wash.all123th.com/api/")+str(app)
@@ -585,7 +614,14 @@ def UpdateOnline(app,data):
 #SSL
 #pip install pyopenssl
 
-UpdateOnline(json_data['serial-number'],json_data)
-if __name__ == '__main__': 
-    socketio.run(app,host="0.0.0.0",port=API_PORT, debug=True)
+
+if __name__ == '__main__':
+    token = '2q6m1Gd0w8fEuibiwyToH0JEyfx_2ft99jvARhHn2u8Q2EPe1'
+    ngrok.set_auth_token(token)
+    listeners = ngrok.forward("http://"+str(json_data['ip'])+":"+str(API_PORT))
+    print(f"Ingress established at "+str(listeners.url()))
+    SetUp()
+    json_data["url"] = str(listeners.url())
+    UpdateOnline(json_data['serial-number'],json_data)
+    socketio.run(app,host="0.0.0.0",port=API_PORT, debug=DEBUG_MODE)
     #socketio.run(app,host="0.0.0.0",port=API_PORT, debug=DEBUG_MODE,ssl_context=('cert.pem', 'key.pem'))
