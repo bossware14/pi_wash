@@ -3,31 +3,22 @@
 #python3 -m pip install ngrok
 #touch ng.py
 #NGROK_AUTHTOKEN=2q6m1Gd0w8fEuibiwyToH0JEyfx_2ft99jvARhHn2u8Q2EPe1 python3 ng.py
+# import ngrok python sdk
+import ngrok
+import time
 
-from http.server import HTTPServer, BaseHTTPRequestHandler
-import logging, ngrok
+token = '2q6m1Gd0w8fEuibiwyToH0JEyfx_2ft99jvARhHn2u8Q2EPe1'
+# Establish connectivity
+ngrok.set_auth_token(token)
 
+listener = ngrok.forward(5000, authtoken_from_env=True,authtoken=token)
 
-class HelloHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        body = bytes("Hello", "utf-8")
-        self.protocol_version = "HTTP/1.1"
-        self.send_response(200)
-        self.send_header("Content-Length", len(body))
-        self.end_headers()
-        self.wfile.write(body)
+# Output ngrok url to console
+print(f"Ingress established at {listener.url()}")
 
-logging.basicConfig(level=logging.INFO)
-
-# Create the server and attach ngrok
-server = HTTPServer(("localhost", 0), HelloHandler)
-ngrok.listen(server)
-
+# Keep the listener alive
 try:
-    logging.info("Starting server. Press Ctrl+C to stop.")
-    server.serve_forever()
+while True:
+    time.sleep(1)
 except KeyboardInterrupt:
-    logging.info("Shutting down server...")
-    server.server_close()  
-    ngrok.kill()  
-    logging.info("Server stopped cleanly.")
+    print("Closing listener")
