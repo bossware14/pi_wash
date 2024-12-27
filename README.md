@@ -2,11 +2,9 @@
 แอปเชื่อมต่อ PION ของ Raspberry Pi5
 
 # Auto Start
-sudo crontab -e
+sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
 
-1
-
-@reboot python3 ~/Desktop/pi_wash/app.py &
+@lxsession -e python3 ~/Desktop/pi_wash/app.py &
 
 # โหลดโปรเจค Git Clone
 cd ~/Desktop
