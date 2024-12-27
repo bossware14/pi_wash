@@ -625,6 +625,14 @@ def createPayment(amount,ref,user):
     data_str = res.json()
     return data_str
 
+def VerifyQr(ref):
+    headers = {"Content-Type": "application/json"}
+    url = str("https://api.d-kub.com/payment-swiftpay/"+str(ref))
+    res = requests.get(url, headers=headers)
+    data_str = res.json()
+    print(data_str)
+    return data_str
+
 SetUp()
 
 if __name__ == '__main__':
