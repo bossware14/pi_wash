@@ -176,6 +176,8 @@
         socket.on('connect', function() {
                 $('#STATUS_LED').removeClass('bg-blue');
                 $('#STATUS_LED').addClass('bg-red');
+
+
             socket.send('connect');
             console.log('connect')
         });
@@ -194,28 +196,30 @@
             $('#wash_status').html(str.data.msg);
             $('#name').html(str.data.name);
             $('#timeout').html(str.data.timeout);
+
+            $('.modewash')[0].checked = false;
+            $('.temperature')[0].checked = false;
+
             $('#monitor').val(str.data.monitor);
             $('#modewash').val(str.data.modewash);
+
+            if(str.data.qrcode){
+            $('.IMG_QRCODE').attr('src',str.data.qrcode)
+            }
             $('#temperature').val(str.data.temperature);
-            
-                $('.modewash')[0].checked = false;
-                $('.temperature')[0].checked = false;
 
-                $('#'+str.data.modewash)[0].checked = true;
-                $('#'+str.data.temperature)[0].checked = true;
+            $('#'+str.data.modewash)[0].checked = true;
+            $('#'+str.data.temperature)[0].checked = true;
 
-           // $('#'+str.data.modewash).attr('checked', true);
-           // $('#'+str.data.temperature).attr('checked', true);
-            
             $('#RUNTIME').html(str.data.runtime);
             $('#TIMESERVER').html(str.data.time);
-            $('#status_mode').html(MODE_TYPE[str.data.modewash]);
+            //$('#status_mode').html(MODE_TYPE[str.data.modewash]);
             $('#status_id').html(str.data.id);
-
             $('#amount').html(str.data.price);
             $('#status_time').html(str.data.minute);
             $('#status_mode').html(MODE_TYPE[str.data.modewash]);
             $('#statustemp').html(MODE_TYPE[str.data.temperature]);
+
             $('#persen').attr('style', 'height:20px;width:'+str.data.persen+'%');
             if (str.data.start == 0) {
                 $('.modewash').attr('disabled', false);
@@ -839,9 +843,10 @@
                             <div class="mt-1">
                                 รายการ :
                                 <span class="text-primary" id="status_id">WASH0001</span>
-
                             </div>
                         </div>
+<script>
+</script>
       </div>
 </div>
             <div class="mt-3 mb-2 text-center alert-dialog-footer">
@@ -969,17 +974,23 @@
 
         var onStartWash = function(title, text) {
             var dialog = document.getElementById('start-alert-dialog');
+            $('.IMG_QRCODE').attr('src','https://cdn-icons-gif.flaticon.com/7994/7994392.gif');
+            var data = {}
+            data.status = 'compile';
+            data.key = 'compile';
+            data.value = 0;
+
             if (dialog) {
-                //$('#start_title').html(title);
-                //$('#start_text').html(text);
+            $('.IMG_QRCODE').attr('src','https://cdn-icons-gif.flaticon.com/7994/7994392.gif');
+            socket.send(JSON.stringify(data));
                 dialog.show();
             } else {
                 ons.createElement('Start-wash.html', {
                     append: true
                 })
                 .then(function(dialog) {
-                   // $('#start_title').html(title);
-                   // $('#start_text').html(text);
+            $('.IMG_QRCODE').attr('src','https://cdn-icons-gif.flaticon.com/7994/7994392.gif');
+            socket.send(JSON.stringify(data));
                     dialog.show(); 
                 });
             }
