@@ -170,14 +170,14 @@
     var onclick = 1;
     var OnOk = 0;
     var RUNTIME = setInterval(() => {}, 1000);
+
+    var AUTOLOAD = setInterval(() => {}, 1000);
     //var socket = io.connect(window.location.hostname+':5000');
     var socket = io.connect();
     document.addEventListener('DOMContentLoaded', (event) => {
         socket.on('connect', function() {
                 $('#STATUS_LED').removeClass('bg-blue');
                 $('#STATUS_LED').addClass('bg-red');
-
-
             socket.send('connect');
             console.log('connect')
         });
@@ -243,7 +243,7 @@
             } else {
                 $('#STATUS_LED').removeClass('bg-blue');
                 $('#STATUS_LED').addClass('bg-red');
-
+                clearInterval(AUTOLOAD)
                 $('.modewash').attr('disabled', true);
                 $('.temperature').attr('disabled', true);
                 $('#AppStop').attr('disabled', false);
@@ -283,6 +283,19 @@
         socket.send(JSON.stringify(data));
     }
 
+    function CheckReal() {
+        if (onclick == 2) {
+            return false;
+        }
+        console.log('check')
+        onclick = 2;
+        var data = {}
+        data.status = 'check';
+        data.key = 'check';
+        data.value = 1;
+        socket.send(JSON.stringify(data));
+    }
+
     function modewash(no) {
         if (onclick == 2) {
             return false;
@@ -315,6 +328,7 @@
         if (onclick == 2) {
             return false;
         }
+        clearInterval(AUTOLOAD)
         $('#videoPlayer').show();
         $('#wash_spin').hide();
         OnOk = 2;
@@ -332,6 +346,7 @@
         if (onclick == 2) {
             return false;
         }
+        clearInterval(AUTOLOAD)
         OnOk = 1;
         Sure();
         $('#videoPlayer').hide();
@@ -983,6 +998,10 @@
             if (dialog) {
             $('.IMG_QRCODE').attr('src','https://cdn-icons-gif.flaticon.com/7994/7994392.gif');
             socket.send(JSON.stringify(data));
+            AUTOLOAD = setInterval(function() {
+            CheckReal();
+        }, 1000);
+
                 dialog.show();
             } else {
                 ons.createElement('Start-wash.html', {
@@ -991,6 +1010,11 @@
                 .then(function(dialog) {
             $('.IMG_QRCODE').attr('src','https://cdn-icons-gif.flaticon.com/7994/7994392.gif');
             socket.send(JSON.stringify(data));
+
+            AUTOLOAD = setInterval(function() {
+            CheckReal();
+             }, 1000);
+
                     dialog.show(); 
                 });
             }
