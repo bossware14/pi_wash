@@ -197,8 +197,16 @@
             $('#monitor').val(str.data.monitor);
             $('#modewash').val(str.data.modewash);
             $('#temperature').val(str.data.temperature);
-            $('#'+str.data.modewash).attr('checked', true);
-            $('#'+str.data.temperature).attr('checked', true);
+            
+                $('.modewash')[0].checked = false;
+                $('.temperature')[0].checked = false;
+
+                $('#'+str.data.modewash)[0].checked = true;
+                $('#'+str.data.temperature)[0].checked = true;
+
+           // $('#'+str.data.modewash).attr('checked', true);
+           // $('#'+str.data.temperature).attr('checked', true);
+            
             $('#RUNTIME').html(str.data.runtime);
             $('#TIMESERVER').html(str.data.time);
             $('#status_mode').html(MODE_TYPE[str.data.modewash]);
