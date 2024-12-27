@@ -524,6 +524,7 @@ def handleMessage(msg):
           json_data['data']['status'] = 'START'
           json_data['data']['monitor'] = 'เริ่มซักผ้า'
           json_data['data']['msg'] = 'เริ่มต้นการทำงาน'
+          createPayment(json_data['data']['price'],json_data['data']['id'],json_data['serial-number'])
           json_data['data']['qrcode'] = 'https://image-charts.com/chart?chs=150x150&cht=qr&choe=UTF-8&chl=000201010212540510.0030690016A000000677010112011501075360001028602150140000056664740307TEST00253037645802TH6304381A'
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
@@ -598,6 +599,13 @@ def UpdateOnline(app,data):
     headers = {"Content-Type": "application/json"}
     url = str("https://app-wash.all123th.com/api/")+str(app)
     requests.put(url, data=json.dumps(data), headers=headers)
+
+def createPayment(amount,ref,user):
+    headers = {"Content-Type": "application/json"}
+    url = str("https://api.d-kub.com/api_payment_qr?secret=258d73cadb425a8feef8897184b07f84ad7e7dcd&id=014000005666474&ref="+str(ref)+"&ref2=&amount="+str(amount)+"&type=manee&username="+str(user)
+    res = requests.get(url, headers=headers)
+    data_str = res.json()
+    print(data_str)
 
 SetUp()
 
