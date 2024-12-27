@@ -1,6 +1,13 @@
 # Raspberry Pi5 Websocket Api
 แอปเชื่อมต่อ PION ของ Raspberry Pi5
 
+# Auto Start
+sudo crontab -e
+
+1
+
+@reboot python3 ~/Desktop/pi_wash/app.py
+
 # โหลดโปรเจค Git Clone
 cd ~/Desktop
 
