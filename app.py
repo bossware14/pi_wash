@@ -261,40 +261,58 @@ if os.path.isfile('data.json'):
 else:
     json_data = {
   "data": {
-    "action": 0,
+    "action": 1,
     "modewash": "modewash1",
-    "monitor": "พร้อม",
-    "msg": "พร้อม",
-    "persen": "0",
+    "monitor": "ซักปกติ",
+    "msg": "พร้อมใช้งาน",
+    "persen": 0,
     "runtime": "00:00:00",
     "sec": 0,
     "start": 0,
-    "status": "STOP",
+    "status": "ONLINE",
     "temperature": "temperature1",
-    "time": "00:00:00",
+    "time": "21:24:32",
     "timeout": "00:00:00",
-    "update": "2024-12-01 00:00:00"
+    "update": "2024-12-27 21:24:32",
+    "price": 30,
+    "minute": "00:01:00",
+    "id": "WH12272123",
+    "qrcode": "https://image-charts.com/chart?chs=150x150&cht=qr&choe=UTF-8&chl=000201010212540530.0030720016A000000677010112011501075360001028602150140000056664740310WH1227212353037645802TH6304EF21",
+    "refId": "40B5459BFD661B6A4AD243DABC2F45E6",
+    "TIMSEC": 0
   },
-  "date": "2024-12-20 00:00:00",
-  "id": "a2d08c2d74594940ae6e6d39e96451bb",
-  "ip": "127.0.0.1",
+  "date": "2024-12-27 21:24:32",
+  "id": "raspberrypi",
+  "ip": "192.168.1.130",
   "mode": {
-    "modewash1": 15,
-    "modewash2": 10,
-    "modewash3": 30,
-    "modewash4": 25
+    "modewash1": 1,
+    "modewash2": 2,
+    "modewash3": 3,
+    "modewash4": 4
   },
   "msg": "พร้อมใช้งาน",
   "price": {
     "modewash1": 30,
-    "modewash2": 30,
+    "modewash2": 25,
     "modewash3": 50,
     "modewash4": 40,
     "temperature1": 0,
     "temperature2": 30,
     "temperature3": 0
   },
-  "status": "ONLINE"
+  "status": "ONLINE",
+  "type": {
+    "modewash1": "ซักปกติ",
+    "modewash2": "ซักด่วน",
+    "modewash3": "ผ้าหุ่ม",
+    "modewash4": "ถหนอม",
+    "temperature1": "อุณหภูมิ ปกติ",
+    "temperature2": "อุณหภูมิ น้ำอุ่น",
+    "temperature3": "อุณหภูมิ น้ำเย็น"
+  },
+  "port": 5000,
+  "serial-number": 237747338487099,
+  "url": "https://aeca93f3dc2a.ngrok.app"
 }
     with open('data.json', 'w') as f:
       json.dump(json_data, f) 
@@ -425,6 +443,7 @@ def update_data(json_data):
                     json_data['data']['status'] = 'STOP'
                     json_data['data']['start'] = 0
                     json_data['data']['action'] = 0
+                    json_data['data']['refId'] = ''
                     json_data['data']['persen'] = 100
                 else:
                     json_data['data']['persen'] = 100-TOSEC*100/int(json_data['data']['sec'])
@@ -500,10 +519,19 @@ def handleMessage(msg):
           onstart = createPayment(json_data['data']['price'],json_data['data']['id'],json_data['serial-number'])
           json_data['data']['qrcode'] = onstart['img']
           json_data['data']['refId'] = onstart['refId']
+          VerifyQr(json_data['data']['refId'])
           print(onstart)
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
-          update_data(json_data)
+          update_data(json_data) 
+          UpdateOnline(json_data['serial-number'],json_data)
+          return send(json_data, broadcast=True)
+
+       if res["status"] == 'check':
+          VerifyQr(json_data['data']['refId'])
+          with open('data.json', 'w') as f:
+            json.dump(json_data, f) 
+          update_data(json_data) 
           UpdateOnline(json_data['serial-number'],json_data)
           return send(json_data, broadcast=True)
 
@@ -514,6 +542,7 @@ def handleMessage(msg):
           json_data['data']['TIMSEC'] = 0
           json_data['data']['sec'] = 0
           json_data['data']['persen'] = 0
+          json_data['data']['refId'] = ''
           json_data['data']['runtime'] = '00:00:00'
           json_data['data']['timeout'] = '00:00:00'
           json_data['data']['monitor'] = 'เสร็จแล้ว'
@@ -523,7 +552,7 @@ def handleMessage(msg):
             json.dump(json_data, f) 
           STOP_MATCHINE()
           update_data(json_data)
-          #UpdateOnline(json_data['serial-number'],json_data)
+          UpdateOnline(json_data['serial-number'],json_data)
           return send(json_data, broadcast=True)
 
        if res["status"] == 'start':
