@@ -496,8 +496,10 @@ def handleMessage(msg):
           return send(json_data, broadcast=True)
 
        if res["status"] == 'compile':
+          json_data['data']['id'] = 'WH'+str(datetime.now(tz=tz).strftime('%m%d%H%M'));
           onstart = createPayment(json_data['data']['price'],json_data['data']['id'],json_data['serial-number'])
           json_data['data']['qrcode'] = onstart['img']
+          json_data['data']['refId'] = onstart['refId']
           print(onstart)
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
