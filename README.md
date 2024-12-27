@@ -6,7 +6,7 @@ sudo crontab -e
 
 1
 
-@reboot python3 ~/Desktop/pi_wash/app.py
+@reboot python3 ~/Desktop/pi_wash/app.py &
 
 # โหลดโปรเจค Git Clone
 cd ~/Desktop
