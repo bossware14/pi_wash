@@ -4,7 +4,8 @@
 # Auto Start
 sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
 
-@lxsession -e python3 ~/Desktop/pi_wash/app.py &
+#@lxsession -e #
+python3 ~/Desktop/pi_wash/app.py &
 
 # โหลดโปรเจค Git Clone
 cd ~/Desktop
