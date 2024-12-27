@@ -603,7 +603,7 @@ def UpdateOnline(app,data):
 
 def createPayment(amount,ref,user):
     headers = {"Content-Type": "application/json"}
-    url = str("https://api.d-kub.com/api_payment_qr?secret=258d73cadb425a8feef8897184b07f84ad7e7dcd&id=014000005666474&ref="+str(ref)+"&ref2=&amount="+str(amount)+"&type=manee&username="+str(user)
+    url = str("https://api.d-kub.com/api_payment_qr?secret=258d73cadb425a8feef8897184b07f84ad7e7dcd&id=014000005666474&ref="+str(ref)+"&ref2=&amount="+str(amount)+"&type=manee&username="+str(user))
     return res = requests.get(url, headers=headers)
     data_str = res.json()
     print(data_str)
