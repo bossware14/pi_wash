@@ -480,7 +480,6 @@ def handleMessage(msg):
               json_data['data']['monitor'] = mode_wash[res["value"]]
               json_data['data']['action'] = jsopn_mode[json_data['data']['modewash']]
               json_data['data']['price'] = jsopn_price[res["value"]]+jsopn_price[json_data['data']['modewash']]
-
           update = timezone(timedelta(hours=7,minutes=int(json_data['data']['action'])))
           getTime = json_data['data']['action']
           if getTime < 10:
@@ -488,8 +487,22 @@ def handleMessage(msg):
           else:
              getTime = str(getTime)
           json_data['data']['minute'] = '00:'+getTime+':00'
+          #onstart = createPayment(json_data['data']['price'],json_data['data']['id'],json_data['serial-number'])
+          #json_data['data']['qrcode'] = onstart['img']
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
+          update_data(json_data)
+          #UpdateOnline(json_data['serial-number'],json_data)
+          return send(json_data, broadcast=True)
+
+       if res["status"] == 'compile':
+          onstart = createPayment(json_data['data']['price'],json_data['data']['id'],json_data['serial-number'])
+          json_data['data']['qrcode'] = onstart['img']
+          print(onstart)
+          with open('data.json', 'w') as f:
+            json.dump(json_data, f) 
+          update_data(json_data)
+          UpdateOnline(json_data['serial-number'],json_data)
           return send(json_data, broadcast=True)
 
        if res["status"] == 'stop':
@@ -507,6 +520,8 @@ def handleMessage(msg):
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
           STOP_MATCHINE()
+          update_data(json_data)
+          #UpdateOnline(json_data['serial-number'],json_data)
           return send(json_data, broadcast=True)
 
        if res["status"] == 'start':
@@ -524,12 +539,12 @@ def handleMessage(msg):
           json_data['data']['status'] = 'START'
           json_data['data']['monitor'] = 'เริ่มซักผ้า'
           json_data['data']['msg'] = 'เริ่มต้นการทำงาน'
-          onstart = createPayment(json_data['data']['price'],json_data['data']['id'],json_data['serial-number'])
-          print(onstart)
-          json_data['data']['qrcode'] = 'https://image-charts.com/chart?chs=150x150&cht=qr&choe=UTF-8&chl=000201010212540510.0030690016A000000677010112011501075360001028602150140000056664740307TEST00253037645802TH6304381A'
+          json_data['data']['qrcode'] = onstart['img']#'https://image-charts.com/chart?chs=150x150&cht=qr&choe=UTF-8&chl=000201010212540510.0030690016A000000677010112011501075360001028602150140000056664740307TEST00253037645802TH6304381A'
           with open('data.json', 'w') as f:
             json.dump(json_data, f) 
           START_MATCHINE()
+          update_data(json_data)
+          UpdateOnline(json_data['serial-number'],json_data)
        return send(json_data, broadcast=True)
 
 @socketio.on_error()
@@ -604,9 +619,9 @@ def UpdateOnline(app,data):
 def createPayment(amount,ref,user):
     headers = {"Content-Type": "application/json"}
     url = str("https://api.d-kub.com/api_payment_qr?secret=258d73cadb425a8feef8897184b07f84ad7e7dcd&id=014000005666474&ref="+str(ref)+"&ref2=&amount="+str(amount)+"&type=manee&username="+str(user))
-    return res = requests.get(url, headers=headers)
+    res = requests.get(url, headers=headers)
     data_str = res.json()
-    print(data_str)
+    return data_str
 
 SetUp()
 
