@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WASH MONITOR</title>
+    <meta name="msapplication-TileColor" content="#274298">
+    <meta name="theme-color" content="#274298">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!-- CSS files -->
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-flags.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-payments.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler-vendors.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=K2D:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&amp;display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: "K2D", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+<body class="d-flex flex-column" style="">
+    <div class="page">
+        <div class="page-wrapper">
+            <div class="page-header d-print-none">
+                <div class="container-xl">
+                    <div class="row g-2 align-items-center">
+                        <div class="col">
+                            <!-- Page pre-title -->
+                            <div class="page-pretitle">WASH</div>
+                            <h2 class="page-title" id="login_title">
+                                
+                            </h2>
+                        </div>
+                        <!-- Page title actions -->
+                        <div class="col-auto ms-auto d-print-none admin">
+                            <div class="btn-list">
+                                <span class=" d-sm-inline">
+                                    <a href="#" onclick="START()" class="btn btn-success">START</a>
+                                </span>
+                                <span class=" d-sm-inline">
+                                    <a href="#" onclick="STOP()" class="btn btn-primary">STOP</a>
+                                </span>
+                                <span class=" d-sm-inline">
+                                    <a href="#" onclick="CLOSE()" class="btn btn-danger">ปิดโปรแกรม</a>
+                                </span>
+                                <span class=" d-sm-inline">
+                                    <a href="#" onclick="SHUTDOWN()" class="btn btn-danger">Shutdown</a>
+                                </span>
+                                <span>
+                                    
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-body">
+                <div class="container-xl">
+                    <div class="row row-deck row-cards">
+                        <div class="col-sm-3 col-lg-3 admin">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-basket">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M10 14a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+                                                    <path d="M5.001 8h13.999a2 2 0 0 1 1.977 2.304l-1.255 7.152a3 3 0 0 1 -2.966 2.544h-9.512a3 3 0 0 1 -2.965 -2.544l-1.255 -7.152a2 2 0 0 1 1.977 -2.304z"></path>
+                                                    <path d="M17 10l-2 -6"></path>
+                                                    <path d="M7 10l2 -6"></path>
+                                                </svg> </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="d-flex">
+                                                <div>
+                                                    ทั้งหมด<br>วันนี้
+                                                </div>
+                                                <div class="ms-auto text-end">
+                                                    <span id="sum_quantity" class="text-primary d-inline-flex align-items-center lh-1">
+                                                        0
+                                                    </span>
+                                                    <br>
+
+                                                    <span id="product_count" class="text-primary d-inline-flex align-items-center lh-1">
+                                                        0
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-3 admin">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-itch">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M2 7v1c0 1.087 1.078 2 2 2c1.107 0 2 -.91 2 -2c0 1.09 .893 2 2 2s2 -.91 2 -2c0 1.09 .893 2 2 2s2 -.91 2 -2c0 1.09 .893 2 2 2s2 -.91 2 -2c0 1.09 .893 2 2 2c.922 0 2 -.913 2 -2v-1c-.009 -.275 -.538 -.964 -1.588 -2.068a3 3 0 0 0 -2.174 -.932h-12.476a3 3 0 0 0 -2.174 .932c-1.05 1.104 -1.58 1.793 -1.588 2.068z"></path>
+                                                    <path d="M4 10c-.117 6.28 .154 9.765 .814 10.456c1.534 .367 4.355 .535 7.186 .536c2.83 -.001 5.652 -.169 7.186 -.536c.99 -1.037 .898 -9.559 .814 -10.456"></path>
+                                                    <path d="M10 16l2 -2l2 2"></path>
+                                                    <path d="M12 14v4"></path>
+                                                </svg> </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="d-flex">
+                                                <div>
+                                                    ต้นทุน<br>กำไร
+                                                </div>
+                                                <div class="ms-auto text-end">
+                                                    <div id="sum_cost" class="text-primary d-inline-flex align-items-end lh-1">
+                                                        0
+                                                    </div>
+                                                    <br>
+                                                    <div id="sum_profit" class="text-primary d-inline-flex align-items-end lh-1">
+                                                        0
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-lg-3 admin">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-database-dollar">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3"></path>
+                                                    <path d="M4 6v6c0 1.657 3.582 3 8 3c.415 0 .822 -.012 1.22 -.035"></path>
+                                                    <path d="M20 10v-4"></path>
+                                                    <path d="M4 12v6c0 1.657 3.582 3 8 3c.352 0 .698 -.009 1.037 -.025"></path>
+                                                    <path d="M21 15h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5"></path>
+                                                    <path d="M19 21v1m0 -8v1"></path>
+                                                </svg> </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="d-flex">
+                                                <div>
+                                                    ขายแล้ว<br>ยอดขาย
+                                                </div>
+                                                <div class="ms-auto text-end"><span id="sum_sold" class="text-primary d-inline-flex align-items-center lh-1">
+                                                        0
+                                                    </span><br>
+                                                    <span id="sum_sold_price" class="text-primary d-inline-flex align-items-center lh-1">
+                                                        0
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3 col-lg-3 admin">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <span class="avatar">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-star">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h.5"></path>
+                                                    <path d="M17.8 20.817l-2.172 1.138a.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a.39 .39 0 0 1 -.567 .411l-2.172 -1.138z"></path>
+                                                </svg> </span>
+                                        </div>
+                                        <div class="col">
+                                            <div class="d-flex">
+                                                <div>
+                                                    Member<br>สมาชิก
+                                                </div>
+                                                <div class="ms-auto">
+                                                    <span id="sum_member" class="text-primary d-inline-flex align-items-center lh-1">0</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-12 admin">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">ใบเสร็จ</h3>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table card-table table-vcenter text-nowrap datatable">
+                                        <thead>
+                                            <tr>
+                                                <th class="w-1">เลขที่</th>
+                                                <th>วันที่</th>
+                                                <th>เวลา</th>
+                                                <th>ลูกค้า</th>
+                                                <th>สาขา</th>
+                                                <th class="admin">ยอดเงิน</th>
+                                                <th>จำนวน</th>
+                                                <th>หมายเหตุ</th>
+                                                <th>สถาณะ</th>
+                                                <th>view</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="invoice"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function changeType(id, type) {
+                $('#' + id).attr('type', type);
+            }
+
+            function START(){
+                $.getJSON('/start')
+            }
+            function STOP(){
+                $.getJSON('/stop')
+            }
+
+            function CLOSE(){
+                $.getJSON('/close')
+            }
+            function SHUTDOWN(){
+                $.getJSON('/shutdown')
+            }
+
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
+
+
+</div></body></html>
